@@ -1,0 +1,42 @@
+api_{{moduleName}}_{{name}}_index:
+    methods: [GET]
+    path: /v1/{{endpoint}}
+    controller: {{controllerClassName}}::index
+
+api_{{moduleName}}_{{name}}_create:
+    path: /v1/{{endpoint}}
+    methods: [POST]
+    controller: {{controllerClassName}}::create
+
+api_{{moduleName}}_{{name}}_view:
+    methods: [GET]
+    path: /v1/{{endpoint}}/{id}}
+    controller: {{controllerClassName}}::view
+    requirements:
+        id: '\d+'
+
+api_{{moduleName}}_{{name}}_update:
+    methods: [PUT]
+    path: /v1/{{endpoint}}/{id}}
+    controller: {{controllerClassName}}::update
+    requirements:
+        id: '\d+'
+
+api_{{moduleName}}_{{name}}_delete:
+    methods: [DELETE]
+    path: /v1/{{endpoint}}/{id}}
+    controller: {{controllerClassName}}::delete
+    requirements:
+        id: '\d+'
+
+api_{{moduleName}}_{{name}}_index_options:
+    methods: [OPTIONS]
+    path: /v1/{{endpoint}}
+    controller: {{controllerClassName}}::options
+
+api_{{moduleName}}_{{name}}_options:
+    methods: [OPTIONS]
+    path: /v1/{{endpoint}}/{id}}
+    controller: {{controllerClassName}}::options
+    requirements:
+        id: '\d+'

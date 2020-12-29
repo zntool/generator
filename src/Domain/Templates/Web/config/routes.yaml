@@ -1,0 +1,30 @@
+web_{{moduleName}}_{{name}}_index:
+    methods: [GET]
+    path: /{{endpoint}}
+    controller: {{controllerClassName}}::index
+
+web_{{moduleName}}_{{name}}_create:
+    path: /{{endpoint}}/create
+    methods: [GET,POST]
+    controller: {{controllerClassName}}::create
+
+web_{{moduleName}}_{{name}}_view:
+    methods: [GET]
+    path: /{{endpoint}}/view/{id}
+    controller: {{controllerClassName}}::view
+    requirements:
+        id: '\d+'
+
+web_{{moduleName}}_{{name}}_update:
+    methods: [GET,POST]
+    path: /{{endpoint}}/update/{id}
+    controller: {{controllerClassName}}::update
+    requirements:
+        id: '\d+'
+
+web_{{moduleName}}_{{name}}_delete:
+    methods: [POST]
+    path: /{{endpoint}}/delete/{id}
+    controller: {{controllerClassName}}::delete
+    requirements:
+        id: '\d+'
