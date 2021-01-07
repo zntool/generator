@@ -42,23 +42,18 @@ class TemplateCodeHelper
     {
         $fieldCode = self::generateAttributes($attributes);
         $code =
-            "if ( ! class_exists({$className}::class)) {
+"class {$className} extends BaseCreateTableMigration
+{
 
-    class {$className} extends BaseCreateTableMigration
+    protected \$tableName = '{$tableName}';
+    protected \$tableComment = '';
+
+    public function tableSchema()
     {
-
-        protected \$tableName = '{$tableName}';
-        protected \$tableComment = '';
-
-        public function tableSchema()
-        {
-            return function (Blueprint \$table) {
+        return function (Blueprint \$table) {
 {$fieldCode}
-            };
-        }
-
+        };
     }
-
 }";
         return $code;
     }
