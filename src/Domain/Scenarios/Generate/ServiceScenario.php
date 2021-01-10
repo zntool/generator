@@ -2,8 +2,12 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
+use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\FileGenerator;
+use Zend\Code\Generator\InterfaceGenerator;
+use Zend\Code\Generator\MethodGenerator;
+use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
-use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnCore\Base\Legacy\Code\entities\ClassEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
@@ -11,16 +15,12 @@ use ZnCore\Base\Legacy\Code\entities\DocBlockEntity;
 use ZnCore\Base\Legacy\Code\entities\DocBlockParameterEntity;
 use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
 use ZnCore\Base\Legacy\Code\enums\AccessEnum;
-use ZnCore\Domain\Libs\EntityManager;
-use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
+use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
+use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Helpers\LocationHelper;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\InterfaceGenerator;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 
 class ServiceScenario extends BaseScenario
 {
@@ -77,7 +77,7 @@ class ServiceScenario extends BaseScenario
             $classGenerator->setImplementedInterfaces([$this->getInterfaceName()]);
             $fileGenerator->setUse($this->getInterfaceFullName());
         }
-        $fileGenerator->setUse(EntityManager::class);
+        $fileGenerator->setUse(EntityManagerInterface::class);
 
         $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
         $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
@@ -107,7 +107,7 @@ class ServiceScenario extends BaseScenario
 
         $parameterGenerator = new ParameterGenerator;
         $parameterGenerator->setName('em');
-        $parameterGenerator->setType(EntityManager::class);
+        $parameterGenerator->setType(EntityManagerInterface::class);
 
         $parameterGenerator2 = new ParameterGenerator;
         $parameterGenerator2->setName('repository');
