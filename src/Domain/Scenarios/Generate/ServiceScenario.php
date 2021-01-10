@@ -2,6 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
+use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnCore\Base\Legacy\Code\entities\ClassEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
@@ -10,6 +11,7 @@ use ZnCore\Base\Legacy\Code\entities\DocBlockEntity;
 use ZnCore\Base\Legacy\Code\entities\DocBlockParameterEntity;
 use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
 use ZnCore\Base\Legacy\Code\enums\AccessEnum;
+use ZnCore\Domain\Libs\EntityManager;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
@@ -75,6 +77,7 @@ class ServiceScenario extends BaseScenario
             $classGenerator->setImplementedInterfaces([$this->getInterfaceName()]);
             $fileGenerator->setUse($this->getInterfaceFullName());
         }
+        $fileGenerator->setUse(EntityManager::class);
 
         $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
         $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
@@ -82,6 +85,7 @@ class ServiceScenario extends BaseScenario
         //$repositoryInterfaceClassName = basename($repositoryInterfaceFullClassName);
         //$fileGenerator->setUse($repositoryInterfaceFullClassName);
 
+        $classGenerator->addProperty('em', null, PropertyGenerator::FLAG_PRIVATE);
         if ($this->attributes) {
             foreach ($this->attributes as $attribute) {
                 $classGenerator->addProperties([
@@ -102,13 +106,18 @@ class ServiceScenario extends BaseScenario
         }
 
         $parameterGenerator = new ParameterGenerator;
-        $parameterGenerator->setName('repository');
-        $parameterGenerator->setType($repositoryInterfacePureClassName);
+        $parameterGenerator->setName('em');
+        $parameterGenerator->setType(EntityManager::class);
+
+        $parameterGenerator2 = new ParameterGenerator;
+        $parameterGenerator2->setName('repository');
+        $parameterGenerator2->setType($repositoryInterfacePureClassName);
 
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('__construct');
         $methodGenerator->setParameter($parameterGenerator);
-        $methodGenerator->setBody('$this->repository = $repository;');
+        $methodGenerator->setParameter($parameterGenerator2);
+        $methodGenerator->setBody('$this->em = $em;' . PHP_EOL . '$this->repository = $repository;');
 
         $classGenerator->addMethods([$methodGenerator]);
 
@@ -120,7 +129,7 @@ class ServiceScenario extends BaseScenario
 ";*/
 
         $phpCode = $fileGenerator->generate();
-        $phpCode = str_replace('public function __construct(\\', 'public function __construct(', $phpCode);
+        //$phpCode = str_replace('public function __construct(\\', 'public function __construct(', $phpCode);
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
 
