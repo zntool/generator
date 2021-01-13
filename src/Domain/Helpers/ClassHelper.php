@@ -18,7 +18,7 @@ class ClassHelper
 {
 	
 	public static function classNameToFileName($class) {
-		$alias = str_replace(['\\', '/'], SL, $class);
+		$alias = str_replace(['\\', '/'], '/', $class);
 		return FileHelper::getAlias('@' . $alias);
 	}
 
