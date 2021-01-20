@@ -52,18 +52,6 @@ class ServiceScenario extends BaseScenario
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
         $fileGenerator->setClass($interfaceGenerator);
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());
-
-
-        /*$className = $this->getClassName();
-        $uses = [];
-        $interfaceEntity = new InterfaceEntity;
-        $interfaceEntity->name = $this->getInterfaceFullName($className);
-        if($this->buildDto->isCrudService) {
-            $uses[] = new ClassUseEntity(['name' => 'ZnCore\Domain\Interfaces\Service\CrudServiceInterface']);
-            $interfaceEntity->extends = 'CrudServiceInterface';
-        }
-        ClassHelper::generate($interfaceEntity, $uses);
-        return $interfaceEntity;*/
     }
 
     protected function createClass()
@@ -132,39 +120,5 @@ class ServiceScenario extends BaseScenario
         //$phpCode = str_replace('public function __construct(\\', 'public function __construct(', $phpCode);
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
-
-
-        /*$className = $this->getClassName();
-        $uses = [];
-        $classEntity = new ClassEntity;
-        $classEntity->name = $this->domainNamespace . '\\' . $this->classDir() . '\\' . $className;
-        if($this->isMakeInterface()) {
-            $useEntity = new ClassUseEntity;
-            $useEntity->name = $this->getInterfaceFullName();
-            $uses[] = $useEntity;
-            $classEntity->implements = $this->getInterfaceName();
-        }
-
-        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
-        $repositoryInterfaceClassName = basename($repositoryInterfaceFullClassName);
-        $uses[] = new ClassUseEntity(['name' => $repositoryInterfaceFullClassName]);
-
-        if($this->buildDto->isCrudService) {
-            $uses[] = new ClassUseEntity(['name' => 'ZnCore\Domain\Base\BaseCrudService']);
-            $classEntity->extends = 'BaseCrudService';
-        } else {
-            $uses[] = new ClassUseEntity(['name' => 'ZnCore\Domain\Base\BaseService']);
-            $classEntity->extends = 'BaseService';
-        }
-
-        $classEntity->code = "
-    public function __construct({$repositoryInterfaceClassName} \$repository)
-    {
-        \$this->repository = \$repository;
-    }
-";
-
-        ClassHelper::generate($classEntity, $uses);
-        return $classEntity;*/
     }
 }
