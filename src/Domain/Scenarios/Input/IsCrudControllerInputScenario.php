@@ -16,7 +16,7 @@ class IsCrudControllerInputScenario extends BaseInputScenario
     protected function question(): Question
     {
         $question = new ConfirmationQuestion(
-            'Is CRUD controller? (y|n): ',
+            'Is CRUD controller? (y|N): ',
             false
         );
         return $question;
