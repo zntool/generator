@@ -2,11 +2,13 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
+use Zend\Code\Generator\ParameterGenerator;
 use ZnCore\Base\Legacy\Code\entities\ClassEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
 use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
 use ZnCore\Base\Legacy\Code\enums\AccessEnum;
+use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
@@ -45,8 +47,13 @@ class EntityScenario extends BaseScenario
 
         $implementedInterfaces = [];
         $fileGenerator->setUse('Symfony\Component\Validator\Constraints', 'Assert');
-        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface');
-        $implementedInterfaces[] = 'ValidateEntityInterface';
+//        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface');
+//        $implementedInterfaces[] = 'ValidateEntityInterface';
+
+        $fileGenerator->setUse('Symfony\Component\Validator\Mapping\ClassMetadata');
+
+        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
+        $implementedInterfaces[] = 'ValidateEntityByMetadataInterface';
 
         if(in_array('id', $this->attributes)) {
             $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\EntityIdInterface');
@@ -56,7 +63,13 @@ class EntityScenario extends BaseScenario
         $classGenerator->setImplementedInterfaces($implementedInterfaces);
 
         $validateBody = $this->generateValidationRulesBody($this->attributes);
-        $classGenerator->addMethod('validationRules', [], [], $validateBody);
+
+        $parameterGenerator = new ParameterGenerator;
+        $parameterGenerator->setName('metadata');
+        $parameterGenerator->setType('Symfony\Component\Validator\Mapping\ClassMetadata');
+
+        $classGenerator->addMethod('loadValidatorMetadata', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
+
 
         if ($this->attributes) {
             foreach ($this->attributes as $attribute) {
@@ -83,13 +96,10 @@ class EntityScenario extends BaseScenario
         if ($attributes) {
             foreach ($attributes as $attribute) {
                 $attributeName = Inflector::variablize($attribute);
-                $validationRules[] =
-                    "    '$attributeName' => [
-        new Assert\NotBlank,
-    ],";
+                $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\NotBlank);";
             }
         }
-        $validateBody = 'return [' . PHP_EOL . implode(PHP_EOL, $validationRules) . PHP_EOL . '];';
+        $validateBody = implode(PHP_EOL, $validationRules);
         return $validateBody;
     }
 
