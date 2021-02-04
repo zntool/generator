@@ -2,9 +2,8 @@
 
 namespace ZnTool\Generator\Domain\Helpers;
 
-use php7rails\domain\BaseEntity;
+use ZnCore\Base\Helpers\DeprecateHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
-use php7rails\domain\helpers\Helper;
 use ZnCore\Base\Legacy\Code\entities\ClassEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
 use ZnCore\Base\Legacy\Code\entities\CodeEntity;
@@ -28,6 +27,7 @@ class ClassHelper
     }
 
 	public static function generate(BaseEntity $entity, $uses = []) {
+	    DeprecateHelper::hardThrow();
 		$codeEntity = new CodeEntity();
 		$className = $entity->namespace . '\\' . $entity->name;
         $fileName = PackageHelper::pathByNamespace($className);
@@ -40,6 +40,7 @@ class ClassHelper
 	}
 
     public static function render(BaseEntity $entity) {
+        DeprecateHelper::hardThrow();
 		/** @var ClassRender|InterfaceRender $render */
 		if($entity instanceof ClassEntity) {
 			$render = new ClassRender();
