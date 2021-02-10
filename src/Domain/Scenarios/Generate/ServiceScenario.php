@@ -141,6 +141,11 @@ class ServiceScenario extends BaseScenario
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
 
+        $this->updateContainerConfig($fileGenerator);
+    }
+
+    private function updateContainerConfig(FileGenerator $fileGenerator) {
+        $fullClassName = $this->getFullClassName();
         $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
         $storeFile = new StoreFile($containerFileName);
         $containerConfig = $storeFile->load();
