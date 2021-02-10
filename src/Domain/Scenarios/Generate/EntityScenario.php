@@ -115,7 +115,6 @@ class EntityScenario extends BaseScenario
         $storeFile->save($containerConfig);
     }
 
-
     private function generateUniqueMethod(): MethodGenerator {
         $methodBody = "return [];";
         $methodGenerator = new MethodGenerator;
