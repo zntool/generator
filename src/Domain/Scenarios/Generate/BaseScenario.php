@@ -84,6 +84,15 @@ abstract class BaseScenario
         ClassHelper::generateFile($this->getInterfaceName(), $fileGenerator->generate());
     }
 
+    protected function generateFileCode(FileGenerator $fileGenerator) {
+        $phpCode = $fileGenerator->generate();
+        foreach ($fileGenerator->getUses() as $useItem) {
+            $useClass = $useItem[0];
+            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
+        }
+        return $phpCode;
+    }
+
     protected function createClass()
     {
         $className = $this->getClassName();

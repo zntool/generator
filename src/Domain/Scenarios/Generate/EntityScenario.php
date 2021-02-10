@@ -53,7 +53,9 @@ class EntityScenario extends BaseScenario
         $fileGenerator->setUse('Symfony\Component\Validator\Mapping\ClassMetadata');
 
         $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
+        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
         $implementedInterfaces[] = 'ValidateEntityByMetadataInterface';
+        $implementedInterfaces[] = 'UniqueInterface';
 
         if(in_array('id', $this->attributes)) {
             $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\EntityIdInterface');
@@ -69,6 +71,10 @@ class EntityScenario extends BaseScenario
         $parameterGenerator->setType('Symfony\Component\Validator\Mapping\ClassMetadata');
 
         $classGenerator->addMethod('loadValidatorMetadata', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
+
+        $methodGenerator = $this->generateUniqueMethod();
+        $classGenerator->addMethodFromGenerator($methodGenerator);
+        //$classGenerator->addMethod('unique', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
 
 
         if ($this->attributes) {
@@ -88,8 +94,22 @@ class EntityScenario extends BaseScenario
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir());
         $fileGenerator->setClass($classGenerator);
         $fileGenerator->setSourceDirty(false);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $fileGenerator->generate());
+
+        $phpCode = $this->generateFileCode($fileGenerator);
+
+        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
     }
+
+
+    private function generateUniqueMethod(): MethodGenerator {
+        $methodBody = "return [];";
+        $methodGenerator = new MethodGenerator;
+        $methodGenerator->setName('unique');
+        $methodGenerator->setBody($methodBody);
+        $methodGenerator->setReturnType('array');
+        return $methodGenerator;
+    }
+
 
     private function generateValidationRulesBody(array $attributes): string {
         $validationRules = [];

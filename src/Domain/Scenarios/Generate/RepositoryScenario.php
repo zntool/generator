@@ -83,7 +83,7 @@ class RepositoryScenario extends BaseScenario
         $classGenerator->addMethodFromGenerator($methodGenerator);
 
         $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
-        $entityPureClassName = basename(LocationHelper::fullClassName($this->name, TypeEnum::ENTITY));
+        $entityPureClassName = \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
         $fileGenerator->setUse($entityFullClassName);
 
         $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);
@@ -96,7 +96,10 @@ class RepositoryScenario extends BaseScenario
         }
 
         $fileGenerator->setClass($classGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $fileGenerator->generate());
+
+        $phpCode = $this->generateFileCode($fileGenerator);
+
+        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
 
     }
 

@@ -73,7 +73,7 @@ class ServiceScenario extends BaseScenario
         //$repositoryInterfaceClassName = basename($repositoryInterfaceFullClassName);
         //$fileGenerator->setUse($repositoryInterfaceFullClassName);
 
-        $classGenerator->addProperty('em', null, PropertyGenerator::FLAG_PRIVATE);
+//        $classGenerator->addProperty('em', null, PropertyGenerator::FLAG_PRIVATE);
         if ($this->attributes) {
             foreach ($this->attributes as $attribute) {
                 $classGenerator->addProperties([
@@ -93,9 +93,9 @@ class ServiceScenario extends BaseScenario
             $classGenerator->setExtendedClass('BaseService');
         }
 
-//        $parameterGenerator = new ParameterGenerator;
-//        $parameterGenerator->setName('em');
-//        $parameterGenerator->setType(EntityManagerInterface::class);
+        $parameterGenerator = new ParameterGenerator;
+        $parameterGenerator->setName('em');
+        $parameterGenerator->setType(EntityManagerInterface::class);
 
         $parameterGenerator2 = new ParameterGenerator;
         $parameterGenerator2->setName('repository');
@@ -103,11 +103,18 @@ class ServiceScenario extends BaseScenario
 
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('__construct');
-        //$methodGenerator->setParameter($parameterGenerator);
+        $methodGenerator->setParameter($parameterGenerator);
         $methodGenerator->setParameter($parameterGenerator2);
         $methodGenerator->setBody('$this->setEntityManager($em);' . PHP_EOL . '$this->repository = $repository;');
 
         $classGenerator->addMethods([$methodGenerator]);
+
+        $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
+        $entityPureClassName = \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
+        $fileGenerator->setUse($entityFullClassName);
+
+        $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);
+        $classGenerator->addMethodFromGenerator($methodGenerator);
 
         /*$code = "
     public function __construct({$repositoryInterfaceClassName} \$repository)
@@ -116,9 +123,30 @@ class ServiceScenario extends BaseScenario
     }
 ";*/
 
-        $phpCode = $fileGenerator->generate();
+        $phpCode = $this->generateFileCode($fileGenerator);
+
+
+        /*$phpCode = $fileGenerator->generate();
+        foreach ($fileGenerator->getUses() as $useItem) {
+            $useClass = $useItem[0];
+            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
+        }*/
+
+
+        //dd($phpCode);
+
         //$phpCode = str_replace('public function __construct(\\', 'public function __construct(', $phpCode);
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+    }
+
+    private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator {
+        $tableName = "{$this->buildDto->domainName}_{$this->buildDto->name}";
+        $methodBody = "return {$entityPureClassName}::class;";
+        $methodGenerator = new MethodGenerator;
+        $methodGenerator->setName('getEntityClass');
+        $methodGenerator->setBody($methodBody);
+        $methodGenerator->setReturnType('string');
+        return $methodGenerator;
     }
 }
