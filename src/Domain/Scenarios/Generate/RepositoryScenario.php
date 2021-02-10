@@ -2,6 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
+use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
 use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnCore\Base\Legacy\Code\entities\ClassEntity;
@@ -19,6 +20,7 @@ use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\PropertyGenerator;
+use ZnTool\Package\Domain\Helpers\PackageHelper;
 
 class RepositoryScenario extends BaseScenario
 {
@@ -101,6 +103,12 @@ class RepositoryScenario extends BaseScenario
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
 
+        $fullClassName = $this->getFullClassName();
+        $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
+        $storeFile = new StoreFile($containerFileName);
+        $containerConfig = $storeFile->load();
+        $containerConfig['singletons'][$this->getInterfaceFullName()] = $fileGenerator->getNamespace() . '\\' . $className;
+        $storeFile->save($containerConfig);
     }
 
     private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator {

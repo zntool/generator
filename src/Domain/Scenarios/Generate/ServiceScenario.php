@@ -16,11 +16,13 @@ use ZnCore\Base\Legacy\Code\entities\DocBlockParameterEntity;
 use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
 use ZnCore\Base\Legacy\Code\enums\AccessEnum;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Helpers\LocationHelper;
+use ZnTool\Package\Domain\Helpers\PackageHelper;
 
 class ServiceScenario extends BaseScenario
 {
@@ -138,6 +140,12 @@ class ServiceScenario extends BaseScenario
         //$phpCode = str_replace('public function __construct(\\', 'public function __construct(', $phpCode);
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+
+        $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
+        $storeFile = new StoreFile($containerFileName);
+        $containerConfig = $storeFile->load();
+        $containerConfig['singletons'][$this->getInterfaceFullName()] = $fullClassName;
+        $storeFile->save($containerConfig);
     }
 
     private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator {

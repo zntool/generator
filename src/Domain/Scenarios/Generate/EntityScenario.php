@@ -8,6 +8,7 @@ use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
 use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
 use ZnCore\Base\Legacy\Code\enums\AccessEnum;
+use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
@@ -18,6 +19,7 @@ use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 use Zend\Code\Generator\PropertyValueGenerator;
+use ZnTool\Package\Domain\Helpers\PackageHelper;
 
 class EntityScenario extends BaseScenario
 {
@@ -98,6 +100,19 @@ class EntityScenario extends BaseScenario
         $phpCode = $this->generateFileCode($fileGenerator);
 
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+
+        $fullClassName = $this->getFullClassName();
+        $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
+        $storeFile = new StoreFile($containerFileName);
+        $containerConfig = $storeFile->load();
+
+        $repoGen = new RepositoryScenario();
+        $repoGen->buildDto = $this->buildDto;
+        $repoGen->domainNamespace = $this->domainNamespace;
+        $repoGen->name = $this->name;
+
+        $containerConfig['entities'][$fullClassName] = $repoGen->getInterfaceFullName();
+        $storeFile->save($containerConfig);
     }
 
 
