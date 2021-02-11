@@ -69,9 +69,9 @@ class ServiceScenario extends BaseScenario
         }
         $fileGenerator->setUse(EntityManagerInterface::class);
 
-        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
-        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
-        $fileGenerator->setUse($repositoryInterfaceFullClassName);
+//        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
+//        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
+//        $fileGenerator->setUse($repositoryInterfaceFullClassName);
         //$repositoryInterfaceClassName = basename($repositoryInterfaceFullClassName);
         //$fileGenerator->setUse($repositoryInterfaceFullClassName);
 
