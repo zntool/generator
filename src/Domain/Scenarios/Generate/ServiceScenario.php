@@ -99,15 +99,15 @@ class ServiceScenario extends BaseScenario
         $parameterGenerator->setName('em');
         $parameterGenerator->setType(EntityManagerInterface::class);
 
-        $parameterGenerator2 = new ParameterGenerator;
-        $parameterGenerator2->setName('repository');
-        $parameterGenerator2->setType($repositoryInterfacePureClassName);
+//        $parameterGenerator2 = new ParameterGenerator;
+//        $parameterGenerator2->setName('repository');
+//        $parameterGenerator2->setType($repositoryInterfacePureClassName);
 
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('__construct');
         $methodGenerator->setParameter($parameterGenerator);
-        $methodGenerator->setParameter($parameterGenerator2);
-        $methodGenerator->setBody('$this->setEntityManager($em);' . PHP_EOL . '$this->repository = $repository;');
+//        $methodGenerator->setParameter($parameterGenerator2);
+        $methodGenerator->setBody('$this->setEntityManager($em);' /*. PHP_EOL . '$this->repository = $repository;'*/);
 
         $classGenerator->addMethods([$methodGenerator]);
 
