@@ -62,7 +62,7 @@ class TemplateCodeHelper
     {
         $fieldCode = '';
         $fields = [];
-        $spaces = str_repeat(" ", 4 * 4);
+        $spaces = str_repeat(" ", 4 * 3);
         foreach ($attributes as $attributeName) {
             $fields[] = $spaces . self::generateField($attributeName);
         }
