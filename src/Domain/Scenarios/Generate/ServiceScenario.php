@@ -3,11 +3,14 @@
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\DocBlock\Tag\MethodTag;
+use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
+use Zend\Code\Reflection\DocBlockReflection;
 use ZnCore\Base\Legacy\Code\entities\ClassEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
@@ -19,6 +22,7 @@ use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
+use ZnSandbox\Sandbox\UserNotify\Domain\Interfaces\Repositories\TransportRepositoryInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Helpers\LocationHelper;
@@ -69,11 +73,11 @@ class ServiceScenario extends BaseScenario
         }
         $fileGenerator->setUse(EntityManagerInterface::class);
 
-//        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
-//        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
+        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
+        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
 //        $fileGenerator->setUse($repositoryInterfaceFullClassName);
         //$repositoryInterfaceClassName = basename($repositoryInterfaceFullClassName);
-        //$fileGenerator->setUse($repositoryInterfaceFullClassName);
+        $fileGenerator->setUse($repositoryInterfaceFullClassName);
 
 //        $classGenerator->addProperty('em', null, PropertyGenerator::FLAG_PRIVATE);
         if ($this->attributes) {
@@ -118,6 +122,12 @@ class ServiceScenario extends BaseScenario
         $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);
         $classGenerator->addMethodFromGenerator($methodGenerator);
 
+
+        $docBlockGenerator = new DocBlockGenerator();
+        $methodTag = new MethodTag('getRepository()', ['\\' . $repositoryInterfacePureClassName]);
+        $docBlockGenerator->setTag($methodTag);
+        $classGenerator->setDocBlock($docBlockGenerator);
+
         /*$code = "
     public function __construct({$repositoryInterfaceClassName} \$repository)
     {
@@ -127,6 +137,7 @@ class ServiceScenario extends BaseScenario
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
+        $phpCode = str_replace("Interface\n * getRepository()", 'Interface getRepository()', $phpCode);
 
         /*$phpCode = $fileGenerator->generate();
         foreach ($fileGenerator->getUses() as $useItem) {
