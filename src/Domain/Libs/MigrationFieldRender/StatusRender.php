@@ -7,7 +7,7 @@ class StatusRender extends BaseRender
 
     public function isMatch(): bool
     {
-        return $this->attributeName == 'status';
+        return $this->attributeName == 'status' || $this->attributeName == 'status_id';
     }
 
     public function run(): string

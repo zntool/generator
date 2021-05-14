@@ -4,16 +4,20 @@ namespace ZnTool\Generator\Domain\Helpers;
 
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
+use ZnTool\Generator\Domain\Libs\MigrationFieldRender\AuthorIdRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\CreatedAtRender;
+use ZnTool\Generator\Domain\Libs\MigrationFieldRender\DescriptionRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\IdRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\MiscRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\SizeRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\StatusRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\TimeRender;
+use ZnTool\Generator\Domain\Libs\MigrationFieldRender\TitleRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\TypeBooleanRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\TypeIntegerRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\TypeTimeRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\UpdatedAtRender;
+use ZnTool\Generator\Domain\Libs\MigrationFieldRender\UserIdRender;
 
 class TemplateCodeHelper
 {
@@ -89,6 +93,10 @@ class TemplateCodeHelper
             UpdatedAtRender::class,
             SizeRender::class,
             StatusRender::class,
+            TitleRender::class,
+            UserIdRender::class,
+            AuthorIdRender::class,
+            DescriptionRender::class,
             TypeTimeRender::class,
             TypeBooleanRender::class,
             TypeIntegerRender::class,
