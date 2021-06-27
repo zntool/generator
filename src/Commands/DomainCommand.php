@@ -2,6 +2,10 @@
 
 namespace ZnTool\Generator\Commands;
 
+use ZnCore\Base\Helpers\ClassHelper;
+use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
+use ZnSandbox\Sandbox\Bundle\Domain\Entities\BundleEntity;
+use ZnSandbox\Sandbox\Bundle\Domain\Interfaces\Services\BundleServiceInterface;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Interfaces\Services\DomainServiceInterface;
 use ZnTool\Generator\Domain\Scenarios\Input\DomainNameInputScenario;
@@ -20,11 +24,13 @@ class DomainCommand extends BaseGeneratorCommand
 
     protected static $defaultName = 'generator:domain';
     private $domainService;
+    private $bundleService;
 
-    public function __construct(?string $name = null, DomainServiceInterface $domainService)
+    public function __construct(?string $name = null, DomainServiceInterface $domainService, BundleServiceInterface $bundleService)
     {
         parent::__construct($name);
         $this->domainService = $domainService;
+        $this->bundleService = $bundleService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -53,7 +59,11 @@ class DomainCommand extends BaseGeneratorCommand
         return;*/
 
 
-        $this->runInputScenario(DomainNamespaceInputScenario::class, $input, $output, $buildDto);
+        $buildDto->domainNamespace = $this->selectDomain($input, $output);
+
+        //dd($domainNamespace);
+
+        //$this->runInputScenario(DomainNamespaceInputScenario::class, $input, $output, $buildDto);
 
         $domainClass = $buildDto->domainNamespace . '\\Domain';
         if (class_exists($domainClass)) {
@@ -83,4 +93,30 @@ class DomainCommand extends BaseGeneratorCommand
         }
     }
 
+    private function selectDomain(InputInterface $input, OutputInterface $output): string {
+        /** @var BundleEntity[] $bundleCollection */
+        $bundleCollection = $this->bundleService->all();
+        $domainCollection = [];
+        $domainCollectionNamespaces = [];
+        foreach ($bundleCollection as $bundleEntity) {
+            if($bundleEntity->getDomain()) {
+                $domainNamespace = ClassHelper::getNamespace($bundleEntity->getDomain()->getClassName());
+                $domainName = $bundleEntity->getDomain()->getName();
+                $title = "$domainName ($domainNamespace)";
+                $domainCollection[] = $title;
+                $domainCollectionNamespaces[$title] = $domainNamespace;
+            }
+            // dd($domainNamespace);
+        }
+
+        $output->writeln('');
+        $question = new ChoiceQuestion(
+            'Select domain',
+            $domainCollection
+        );
+        $selectedDomain = $this->getHelper('question')->ask($input, $output, $question);
+        $domainNamespace = $domainCollectionNamespaces[$selectedDomain];
+
+        return $domainNamespace;
+    }
 }
