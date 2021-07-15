@@ -52,11 +52,9 @@ class TemplateCodeHelper
     protected \$tableName = '{$tableName}';
     protected \$tableComment = '';
 
-    public function tableSchema()
+    public function tableStructure(Blueprint \$table): void
     {
-        return function (Blueprint \$table) {
 {$fieldCode}
-        };
     }
 }";
         return $code;
@@ -66,7 +64,7 @@ class TemplateCodeHelper
     {
         $fieldCode = '';
         $fields = [];
-        $spaces = str_repeat(" ", 4 * 3);
+        $spaces = str_repeat(" ", 4 * 2);
         foreach ($attributes as $attributeName) {
             $fields[] = $spaces . self::generateField($attributeName);
         }
