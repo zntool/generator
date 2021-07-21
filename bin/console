@@ -12,8 +12,7 @@ DotEnv::init();
 
 $bundles = [
     new \ZnCore\Base\Libs\App\Bundle(['all']),
-    new \ZnSandbox\Sandbox\Bundle\Bundle(['all']),
-    new \ZnSandbox\Sandbox\Generator\Bundle(['all']),
+//    new \ZnSandbox\Sandbox\Generator\Bundle(['all']),
 //    new \ZnBundle\Language\Bundle(['all']),
     new \ZnTool\Generator\Bundle(['container', 'console']),
 ];
