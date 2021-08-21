@@ -22,7 +22,7 @@ use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
-use ZnSandbox\Sandbox\UserNotify\Domain\Interfaces\Repositories\TransportRepositoryInterface;
+use ZnUser\Notify\Domain\Interfaces\Repositories\TransportRepositoryInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Helpers\LocationHelper;
