@@ -38,7 +38,7 @@ class DomainCommand extends BaseGeneratorCommand
     {
         $output->writeln('<fg=white># Domain generator</>');
         $buildDto = new BuildDto;
-        $buildDto->typeArray = ['service', 'repository', 'entity', 'migration', 'domain'];
+        $buildDto->typeArray = ['service', 'repository', 'entity', 'migration', 'permissionEnum', 'domain'];
         $this->input($input, $output, $buildDto);
         $this->domainService->generate($buildDto);
         return 0;
