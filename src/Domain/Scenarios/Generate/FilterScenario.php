@@ -49,12 +49,6 @@ class FilterScenario extends BaseEntityScenario
         $this->addInterface('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
         $this->addInterface('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
 
-        /*if (in_array('created_at', $this->attributes)) {
-            $fileGenerator->setUse(\DateTime::class);
-            $constructBody = '$this->createdAt = new DateTime();';
-            $classGenerator->addMethod('__construct', [], [], $constructBody);
-        }*/
-
         $this->generateValidationRules($this->attributes);
 
         $this->generateAttributes($this->attributes);
@@ -68,17 +62,6 @@ class FilterScenario extends BaseEntityScenario
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
     }
 
-    /*private function generateUniqueMethod(): MethodGenerator
-    {
-        $methodBody = "return [];";
-        $methodGenerator = new MethodGenerator;
-        $methodGenerator->setName('unique');
-        $methodGenerator->setBody($methodBody);
-        $methodGenerator->setReturnType('array');
-        return $methodGenerator;
-    }*/
-
-
     protected function generateValidationRulesBody(array $attributes): string
     {
         $validationRules = [];
@@ -86,9 +69,7 @@ class FilterScenario extends BaseEntityScenario
             $constraintCodeGenerator = new ConstraintCodeGenerator($this->getFileGenerator());
             foreach ($attributes as $attribute) {
                 $attributeName = Inflector::variablize($attribute);
-                //if ($attribute !== 'id') {
-                    $validationRules = ArrayHelper::merge($validationRules, $constraintCodeGenerator->generateCode($attribute));
-                //}
+                $validationRules = ArrayHelper::merge($validationRules, $constraintCodeGenerator->generateCode($attribute));
             }
         }
         $validateBody = implode(PHP_EOL, $validationRules);
