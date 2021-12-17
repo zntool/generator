@@ -40,7 +40,7 @@ class RepositoryScenario extends BaseScenario
 
     protected function createInterface()
     {
-        $fileGenerator = new FileGenerator;
+        $fileGenerator = new FileGenerator();
         $interfaceGenerator = new InterfaceGenerator;
         $interfaceGenerator->setName($this->getInterfaceName());
         if ($this->buildDto->isCrudRepository) {
@@ -67,8 +67,8 @@ class RepositoryScenario extends BaseScenario
         $className = $this->getClassName();
         $driverDirName = Inflector::camelize($driver);
         $repoClassName = $driverDirName . '\\' . $className;
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = new FileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir() . '\\' . $driverDirName);
 
         $parentClass = $this->parentClass($driver);
@@ -124,6 +124,7 @@ class RepositoryScenario extends BaseScenario
 
     private function generateTableNameMethod(): MethodGenerator {
         $tableName = "{$this->buildDto->domainName}_{$this->buildDto->name}";
+        $tableName = Inflector::underscore($tableName);
         $methodBody = "return '{$tableName}';";
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('tableName');

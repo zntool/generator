@@ -23,8 +23,8 @@ class DomainScenario extends BaseScenario
 
     protected function createClass()
     {
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = $this->getFileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $classGenerator->setName('Domain');
         $classGenerator->setImplementedInterfaces(['DomainInterface']);
         $classGenerator->addMethods([

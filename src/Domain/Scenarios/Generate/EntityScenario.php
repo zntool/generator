@@ -43,8 +43,8 @@ class EntityScenario extends BaseEntityScenario
     {
         $className = $this->getClassName();
         $fullClassName = $this->getFullClassName();
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = $this->getFileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
 
         $implementedInterfaces = [];

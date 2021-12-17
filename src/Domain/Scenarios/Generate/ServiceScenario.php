@@ -41,7 +41,7 @@ class ServiceScenario extends BaseScenario
 
     protected function createInterface()
     {
-        $fileGenerator = new FileGenerator;
+        $fileGenerator = new FileGenerator();
         $interfaceGenerator = new InterfaceGenerator;
         $interfaceGenerator->setName($this->getInterfaceName());
         if ($this->buildDto->isCrudService) {
@@ -58,11 +58,11 @@ class ServiceScenario extends BaseScenario
     {
         $className = $this->getClassName();
         $fullClassName = $this->getFullClassName();
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = $this->getFileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
         if ($this->isMakeInterface()) {
-            $classGenerator->setImplementedInterfaces([$this->getInterfaceName()]);
+            $classGenerator->setImplementedInterfaces([$this->getInterfaceFullName()]);
             $fileGenerator->setUse($this->getInterfaceFullName());
         }
         $fileGenerator->setUse(EntityManagerInterface::class);

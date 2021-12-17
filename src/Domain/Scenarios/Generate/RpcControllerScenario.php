@@ -63,8 +63,8 @@ class RpcControllerScenario extends BaseScenario
     {
         $className = $this->getClassName();
         $fullClassName = $this->getFullClassName();
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = $this->getFileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
 
         $classGenerator->setExtendedClass(BaseCrudRpcController::class);
@@ -115,7 +115,7 @@ class RpcControllerScenario extends BaseScenario
     }
 
     protected function generateRoutes() {
-        $fileGenerator = new FileGenerator;
+        $fileGenerator = new FileGenerator();
         $fileGenerator->setUse($this->getFullClassName());
 
         $permissionEnumScenario = new PermissionEnumScenario();

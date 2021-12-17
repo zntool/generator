@@ -47,8 +47,8 @@ class PermissionEnumScenario extends BaseScenario
     {
         $className = $this->getClassName();
         $fullClassName = $this->getFullClassName();
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = $this->getFileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
 
         $classGenerator->setImplementedInterfaces([\ZnCore\Base\Interfaces\GetLabelsInterface::class]);

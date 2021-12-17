@@ -54,7 +54,7 @@ abstract class BaseScenario
 
     public function getClassGenerator(): ClassGenerator
     {
-        if ($this->classGenerator) {
+        if ($this->classGenerator == null) {
             $this->classGenerator = new ClassGenerator();
         }
         return $this->classGenerator;
@@ -87,6 +87,7 @@ abstract class BaseScenario
 
     public function getInterfaceFullName(): string
     {
+        //return $this->classNamespace() . '\\' . $this->getInterfaceName();
         return $this->domainNamespace . '\\' . $this->interfaceDir() . '\\' . $this->getInterfaceName();
     }
 
@@ -98,14 +99,14 @@ abstract class BaseScenario
 
     protected function createInterface()
     {
-        $fileGenerator = new FileGenerator;
+        $fileGenerator = new FileGenerator();
         $interfaceGenerator = new InterfaceGenerator;
         $interfaceGenerator->setName($this->getInterfaceName());
 
         $fileGenerator->setClass($interfaceGenerator);
-        $fileGenerator->setUse($this->getInterfaceFullName());
+//        $fileGenerator->setUse($this->getInterfaceFullName());
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
-        ClassHelper::generateFile($this->getInterfaceName(), $fileGenerator->generate());
+        ClassHelper::generateFile($this->getInterfaceFullName(), $fileGenerator->generate());
     }
 
     protected function generateFileCode(FileGenerator $fileGenerator)
@@ -122,8 +123,8 @@ abstract class BaseScenario
     {
         $className = $this->getClassName();
         $fullClassName = $this->getFullClassName();
-        $fileGenerator = new FileGenerator;
-        $classGenerator = new ClassGenerator;
+        $fileGenerator = $this->getFileGenerator();
+        $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
         if ($this->isMakeInterface()) {
             $classGenerator->setImplementedInterfaces([$this->getInterfaceName()]);
