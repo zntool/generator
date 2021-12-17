@@ -44,8 +44,8 @@ class DomainCommand extends BaseGeneratorCommand
             'entity',
             'migration',
             'permissionEnum',
-            'domain',
-            //'rpc',
+//            'domain',
+            'rpcController',
         ];
         $this->input($input, $output, $buildDto);
         $this->domainService->generate($buildDto);

@@ -55,6 +55,7 @@ class ServiceScenario extends BaseScenario
             $fileGenerator->setUse(CrudServiceInterface::class);
             $interfaceGenerator->setImplementedInterfaces(['CrudServiceInterface']);
         }
+//        $fileGenerator->setNamespace($this->classNamespace());
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
         $fileGenerator->setClass($interfaceGenerator);
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());

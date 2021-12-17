@@ -10,6 +10,7 @@ use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
 use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
 use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
 use ZnCore\Base\Legacy\Code\enums\AccessEnum;
+use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
@@ -51,9 +52,17 @@ abstract class BaseScenario
         return Inflector::classify($this->buildDto->name) . $this->typeName();
     }
 
-    protected function getFullClassName(): string
+    public function getFullClassName(): string
     {
-        return $this->domainNamespace . '\\' . $this->classDir() . '\\' . $this->getClassName();
+        return $this->classNamespace() . '\\' . $this->getClassName();
+    }
+
+    protected function bundleNamespace(): string {
+        return \ZnCore\Base\Helpers\ClassHelper::getNamespace($this->domainNamespace);
+    }
+
+    public function classNamespace(): string {
+        return $this->domainNamespace . '\\' . $this->classDir();
     }
 
     protected function interfaceDir()
@@ -61,12 +70,12 @@ abstract class BaseScenario
         return 'Interfaces\\' . $this->classDir();
     }
 
-    protected function getInterfaceFullName(): string
+    public function getInterfaceFullName(): string
     {
         return $this->domainNamespace . '\\' . $this->interfaceDir() . '\\' . $this->getInterfaceName();
     }
 
-    protected function getInterfaceName(): string
+    public function getInterfaceName(): string
     {
         $className = $this->getClassName();
         return $className . 'Interface';
