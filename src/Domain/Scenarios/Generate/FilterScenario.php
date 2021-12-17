@@ -44,24 +44,10 @@ class FilterScenario extends BaseEntityScenario
         $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
 
-        $implementedInterfaces = [];
         $fileGenerator->setUse('Symfony\Component\Validator\Constraints', 'Assert');
-//        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\ValidateEntityInterface');
-//        $implementedInterfaces[] = 'ValidateEntityInterface';
-
         $fileGenerator->setUse('Symfony\Component\Validator\Mapping\ClassMetadata');
-
-        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
-//        $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
-        $implementedInterfaces[] = 'ValidateEntityByMetadataInterface';
-//        $implementedInterfaces[] = 'UniqueInterface';
-
-        /*if (in_array('id', $this->attributes)) {
-            $fileGenerator->setUse('ZnCore\Domain\Interfaces\Entity\EntityIdInterface');
-            $implementedInterfaces[] = 'EntityIdInterface';
-        }*/
-
-        $classGenerator->setImplementedInterfaces($implementedInterfaces);
+        $this->addInterface('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
+        $this->addInterface('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
 
         /*if (in_array('created_at', $this->attributes)) {
             $fileGenerator->setUse(\DateTime::class);
@@ -69,32 +55,9 @@ class FilterScenario extends BaseEntityScenario
             $classGenerator->addMethod('__construct', [], [], $constructBody);
         }*/
 
-        $validateBody = $this->generateValidationRulesBody($this->attributes, $fileGenerator);
-        $parameterGenerator = new ParameterGenerator;
-        $parameterGenerator->setName('metadata');
-        $parameterGenerator->setType('Symfony\Component\Validator\Mapping\ClassMetadata');
-        $classGenerator->addMethod('loadValidatorMetadata', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
+        $this->generateValidationRules($this->attributes);
 
-//        $methodGenerator = $this->generateUniqueMethod();
-//        $classGenerator->addMethodFromGenerator($methodGenerator);
-        //$classGenerator->addMethod('unique', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
-
-
-        if ($this->attributes) {
-            foreach ($this->attributes as $attribute) {
-                $attributeName = Inflector::variablize($attribute);
-
-                $propertyGenerator = new PropertyGenerator($attributeName, null, PropertyGenerator::FLAG_PRIVATE);
-//                $propertyGenerator->setDefaultValue();
-                $classGenerator->addPropertyFromGenerator($propertyGenerator);
-
-                $setterMethodGenerator = $this->generateSetter($attributeName);
-                $classGenerator->addMethodFromGenerator($setterMethodGenerator);
-
-                $getterMethodGenerator = $this->generateGetter($attributeName);
-                $classGenerator->addMethodFromGenerator($getterMethodGenerator);
-            }
-        }
+        $this->generateAttributes($this->attributes);
 
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir());
         $fileGenerator->setClass($classGenerator);
@@ -116,11 +79,11 @@ class FilterScenario extends BaseEntityScenario
     }*/
 
 
-    private function generateValidationRulesBody(array $attributes, FileGenerator $fileGenerator): string
+    protected function generateValidationRulesBody(array $attributes): string
     {
         $validationRules = [];
         if ($attributes) {
-            $constraintCodeGenerator = new ConstraintCodeGenerator($fileGenerator);
+            $constraintCodeGenerator = new ConstraintCodeGenerator($this->getFileGenerator());
             foreach ($attributes as $attribute) {
                 $attributeName = Inflector::variablize($attribute);
                 //if ($attribute !== 'id') {

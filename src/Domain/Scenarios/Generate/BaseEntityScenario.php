@@ -24,6 +24,8 @@ use ZnUser\Notify\Domain\Enums\NotifyStatusEnum;
 abstract class BaseEntityScenario extends BaseScenario
 {
 
+    abstract protected function generateValidationRulesBody(array $attributes): string;
+
     public function getEntityAttributes(): array {
         $entityScenario = new EntityScenario();
         $entityScenario->name = $this->name;
@@ -48,6 +50,34 @@ abstract class BaseEntityScenario extends BaseScenario
     public function init()
     {
         $this->attributes = $this->buildDto->attributes;
+    }
+
+    protected function generateValidationRules(array $attributes)
+    {
+        $validateBody = $this->generateValidationRulesBody($attributes);
+        $parameterGenerator = new ParameterGenerator;
+        $parameterGenerator->setName('metadata');
+        $parameterGenerator->setType('Symfony\Component\Validator\Mapping\ClassMetadata');
+        $this->getClassGenerator()->addMethod('loadValidatorMetadata', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
+    }
+
+    protected function generateAttributes(array $attributes)
+    {
+        if ($attributes) {
+            foreach ($attributes as $attribute) {
+                $attributeName = Inflector::variablize($attribute);
+
+                $propertyGenerator = new PropertyGenerator($attributeName, null, PropertyGenerator::FLAG_PROTECTED);
+//                $propertyGenerator->setDefaultValue();
+                $this->getClassGenerator()->addPropertyFromGenerator($propertyGenerator);
+
+                $setterMethodGenerator = $this->generateSetter($attributeName);
+                $this->getClassGenerator()->addMethodFromGenerator($setterMethodGenerator);
+
+                $getterMethodGenerator = $this->generateGetter($attributeName);
+                $this->getClassGenerator()->addMethodFromGenerator($getterMethodGenerator);
+            }
+        }
     }
 
     protected function generateSetter(string $attributeName): MethodGenerator

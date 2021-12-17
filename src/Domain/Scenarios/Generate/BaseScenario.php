@@ -97,6 +97,15 @@ abstract class BaseScenario
         return $className . 'Interface';
     }
 
+    protected $implementedInterfaces = [];
+
+    protected function addInterface(string $interface, ?string $as = null)
+    {
+        $this->getFileGenerator()->setUse($interface, $as);
+        $this->implementedInterfaces[] = basename($interface);
+        $this->getClassGenerator()->setImplementedInterfaces($this->implementedInterfaces);
+    }
+
     protected function createInterface()
     {
         $fileGenerator = new FileGenerator();

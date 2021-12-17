@@ -43,6 +43,7 @@ class DomainCommand extends BaseGeneratorCommand
             'repository',
             'entity',
             'filter',
+            'form',
             'migration',
             'permissionEnum',
 //            'domain',
