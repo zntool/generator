@@ -4,6 +4,7 @@ namespace ZnTool\Generator\Domain\Helpers;
 
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
+use ZnTool\Generator\Domain\Libs\MigrationFieldRender\ArrayRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\AuthorIdRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\CreatedAtRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\DescriptionRender;
@@ -98,6 +99,7 @@ class TemplateCodeHelper
             TypeTimeRender::class,
             TypeBooleanRender::class,
             TypeIntegerRender::class,
+            ArrayRender::class,
         ];
         $renderClasses[] = MiscRender::class;
         foreach ($renderClasses as $renderClass) {

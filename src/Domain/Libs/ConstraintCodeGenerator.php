@@ -7,6 +7,7 @@ use ZnCore\Base\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
+use ZnTool\Generator\Domain\Libs\Types\ArrayType;
 use ZnTool\Generator\Domain\Libs\Types\BaseType;
 use ZnTool\Generator\Domain\Libs\Types\BoolType;
 use ZnTool\Generator\Domain\Libs\Types\IntPositiveOrZeroType;
@@ -69,9 +70,14 @@ class ConstraintCodeGenerator
 
         //$isCount = FieldRenderHelper::isMatchSuffix($attribute, '_count') || $attribute == 'size';
         if(TypeAttributeHelper::isMatchTypeByClass($attributeName, IntPositiveOrZeroType::class)) {
-//            dump($attributeName);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\PositiveOrZero());";
         }
+
+        if(TypeAttributeHelper::isMatchTypeByClass($attributeName, ArrayType::class)) {
+            $this->fileGenerator->setUse(\ZnCore\Domain\Constraints\Arr::class);
+            $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Arr());";
+        }
+
         return $validationRules;
     }
 }

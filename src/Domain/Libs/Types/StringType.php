@@ -18,8 +18,4 @@ class StringType extends BaseType
             $this->matchSuffixOrEqual($attributeName, 'title') ||
             $this->matchSuffixOrEqual($attributeName, 'name');
     }
-
-    protected function matchSuffixOrEqual(string $attributeName, string $match): bool {
-        return TypeAttributeHelper::isMatchSuffix($attributeName, '_' . $match) || $attributeName == $match;
-    }
 }

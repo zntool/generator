@@ -11,12 +11,13 @@ class TypeAttributeHelper
 
     public static function isMatchPrefix(string $attributeName, string $prefixName): bool
     {
-        return strpos($attributeName, $prefixName) === 0;
+//        return strpos($attributeName, $prefixName) === 0;
+        return preg_match("/^$prefixName/i", $attributeName);
     }
 
     public static function isMatchSuffix(string $attributeName, string $suffixName): bool
     {
-        return strpos($attributeName, $suffixName) == strlen($attributeName) - strlen($suffixName);
+        return preg_match("/$suffixName$/i", $attributeName);
     }
 
     public static function isMatchTypeByClass(string $attributeName, $typeClass): bool {
