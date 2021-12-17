@@ -21,12 +21,18 @@ class DomainScenario extends BaseScenario
         return '';
     }
 
+    public function classNamespace(): string
+    {
+        return ;
+    }
+
     protected function createClass()
     {
         $fileGenerator = $this->getFileGenerator();
         $classGenerator = $this->getClassGenerator();
         $classGenerator->setName('Domain');
-        $classGenerator->setImplementedInterfaces(['DomainInterface']);
+        $this->addInterface(DomainInterface::class);
+//        $classGenerator->setImplementedInterfaces(['DomainInterface']);
         $classGenerator->addMethods([
             MethodGenerator::fromArray([
                 'name' => 'getName',
@@ -34,8 +40,8 @@ class DomainScenario extends BaseScenario
             ]),
         ]);
         $fileGenerator->setClass($classGenerator);
-        $fileGenerator->setUse(DomainInterface::class);
-        $fileGenerator->setNamespace($this->domainNamespace);
+//        $fileGenerator->setUse(DomainInterface::class);
+        $fileGenerator->setNamespace($this->classNamespace());
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . 'Domain', $fileGenerator->generate());
     }
 }

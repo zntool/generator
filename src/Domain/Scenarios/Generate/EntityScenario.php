@@ -2,32 +2,17 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use Zend\Code\Generator\ParameterGenerator;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Libs\Store\StoreFile;
-use ZnCore\Domain\Constraints\Enum;
-use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
-use ZnTool\Generator\Domain\Helpers\ClassHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnTool\Generator\Domain\Dto\BuildDto;
-use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Generator\PropertyValueGenerator;
-use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Store\StoreFile;
+use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Libs\ConstraintCodeGenerator;
 use ZnTool\Package\Domain\Helpers\PackageHelper;
-use ZnUser\Notify\Domain\Enums\NotifyStatusEnum;
 
 class EntityScenario extends BaseEntityScenario
 {
-
-    /*public function init()
-    {
-        $this->attributes = $this->buildDto->attributes;
-    }*/
 
     public function typeName()
     {
@@ -52,11 +37,11 @@ class EntityScenario extends BaseEntityScenario
         $this->addInterface('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
         $this->addInterface('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
 
-        if(in_array('id', $this->attributes)) {
+        if (in_array('id', $this->attributes)) {
             $this->addInterface('ZnCore\Domain\Interfaces\Entity\EntityIdInterface');
         }
 
-        if(in_array('created_at', $this->attributes)) {
+        if (in_array('created_at', $this->attributes)) {
             $fileGenerator->setUse(\DateTime::class);
             $constructBody = '$this->createdAt = new DateTime();';
             $classGenerator->addMethod('__construct', [], [], $constructBody);
@@ -75,12 +60,13 @@ class EntityScenario extends BaseEntityScenario
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+        ClassHelper::generateFile($this->getFullClassName(), $phpCode);
 
         $this->updateContainerConfig($fileGenerator);
     }
 
-    private function updateContainerConfig(FileGenerator $fileGenerator) {
+    private function updateContainerConfig(FileGenerator $fileGenerator)
+    {
         $fullClassName = $this->getFullClassName();
         $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
         $storeFile = new StoreFile($containerFileName);
@@ -95,7 +81,8 @@ class EntityScenario extends BaseEntityScenario
         $storeFile->save($containerConfig);
     }
 
-    private function generateUniqueMethod(): MethodGenerator {
+    private function generateUniqueMethod(): MethodGenerator
+    {
         $methodBody = "return [];";
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('unique');
@@ -104,20 +91,16 @@ class EntityScenario extends BaseEntityScenario
         return $methodGenerator;
     }
 
-
-    protected function generateValidationRulesBody(array $attributes): string {
+    protected function generateValidationRulesForAttribute(string $attribute, ConstraintCodeGenerator $constraintCodeGenerator = null): array {
+        $attributeName = Inflector::variablize($attribute);
         $validationRules = [];
-        if ($attributes) {
-            $constraintCodeGenerator = new ConstraintCodeGenerator($this->getFileGenerator());
-            foreach ($attributes as $attribute) {
-                $attributeName = Inflector::variablize($attribute);
-                if($attribute !== 'id') {
-                    $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\NotBlank());";
-                }
-                $validationRules = ArrayHelper::merge($validationRules, $constraintCodeGenerator->generateCode($attribute));
-            }
+        if ($attribute !== 'id') {
+            $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\NotBlank());";
         }
-        $validateBody = implode(PHP_EOL, $validationRules);
-        return $validateBody;
+        $constraintCodeGenerator = new ConstraintCodeGenerator($this->getFileGenerator());
+        $validationRules = ArrayHelper::merge($validationRules, $constraintCodeGenerator->generateCode($attribute));
+        return $validationRules;
     }
+
+
 }

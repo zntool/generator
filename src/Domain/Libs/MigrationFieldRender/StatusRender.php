@@ -2,12 +2,15 @@
 
 namespace ZnTool\Generator\Domain\Libs\MigrationFieldRender;
 
+use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
+use ZnTool\Generator\Domain\Libs\Types\StatusIdType;
+
 class StatusRender extends BaseRender
 {
 
     public function isMatch(): bool
     {
-        return $this->attributeName == 'status' || $this->attributeName == 'status_id';
+        return TypeAttributeHelper::isMatchTypeByClass($this->attributeName, StatusIdType::class);
     }
 
     public function run(): string

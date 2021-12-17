@@ -16,8 +16,8 @@ class IsCrudRepositoryInputScenario extends BaseInputScenario
     protected function question(): Question
     {
         $question = new ConfirmationQuestion(
-            'Is CRUD repository? (y|N): ',
-            false
+            'Is CRUD repository? (Y|n): ',
+            true
         );
         return $question;
     }

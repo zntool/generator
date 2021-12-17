@@ -21,8 +21,9 @@ class DriverInputScenario extends BaseInputScenario
         ];
         //$drivers['c'] = 'custom';
         $question = new ChoiceQuestion(
-            'Please select repository drivers',
-            $drivers
+            'Please select repository drivers (default "eloquent")',
+            $drivers,
+            0
         );
         $question->setMultiselect(true);
         return $question;

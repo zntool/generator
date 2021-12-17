@@ -69,7 +69,7 @@ class RepositoryScenario extends BaseScenario
         $repoClassName = $driverDirName . '\\' . $className;
         $fileGenerator = new FileGenerator();
         $classGenerator = $this->getClassGenerator();
-        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir() . '\\' . $driverDirName);
+        $fileGenerator->setNamespace($this->classNamespace() . '\\' . $driverDirName);
 
         $parentClass = $this->parentClass($driver);
         if($parentClass) {
@@ -97,7 +97,7 @@ class RepositoryScenario extends BaseScenario
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+        ClassHelper::generateFile($this->getFullClassName(), $phpCode);
 
         $this->updateContainerConfig($fileGenerator);
     }

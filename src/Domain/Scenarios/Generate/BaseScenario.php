@@ -146,8 +146,8 @@ abstract class BaseScenario
                 ]);
             }
         }
-        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir());
+        $fileGenerator->setNamespace($this->classNamespace());
         $fileGenerator->setClass($classGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $fileGenerator->generate());
+        ClassHelper::generateFile($this->getFullClassName(), $fileGenerator->generate());
     }
 }

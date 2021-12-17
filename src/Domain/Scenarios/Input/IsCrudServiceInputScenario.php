@@ -16,8 +16,8 @@ class IsCrudServiceInputScenario extends BaseInputScenario
     protected function question(): Question
     {
         $question = new ConfirmationQuestion(
-            'Is CRUD service? (y|N): ',
-            false
+            'Is CRUD service? (Y|n): ',
+            true
         );
         return $question;
     }

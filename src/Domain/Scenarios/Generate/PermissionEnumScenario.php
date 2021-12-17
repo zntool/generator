@@ -84,11 +84,11 @@ class PermissionEnumScenario extends BaseScenario
         $methodGenerator->setStatic(true);
         $classGenerator->addMethodFromGenerator($methodGenerator);
 
-        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir());
+        $fileGenerator->setNamespace($this->classNamespace());
         $fileGenerator->setClass($classGenerator);
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+        ClassHelper::generateFile($this->getFullClassName(), $phpCode);
     }
 }

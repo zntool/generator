@@ -81,7 +81,7 @@ class ServiceScenario extends BaseScenario
                 ]);
             }
         }
-        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->classDir());
+        $fileGenerator->setNamespace($this->classNamespace());
         $fileGenerator->setClass($classGenerator);
 
 
@@ -144,7 +144,7 @@ class ServiceScenario extends BaseScenario
 
         //$phpCode = str_replace('public function __construct(\\', 'public function __construct(', $phpCode);
 
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+        ClassHelper::generateFile($this->getFullClassName(), $phpCode);
 
         $this->updateContainerConfig($fileGenerator);
     }

@@ -94,7 +94,7 @@ class RpcControllerScenario extends BaseScenario
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $className, $phpCode);
+        ClassHelper::generateFile($this->getFullClassName(), $phpCode);
         $this->generateRoutes();
     }
 
