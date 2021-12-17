@@ -5,12 +5,6 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\InterfaceGenerator;
-use ZnCore\Base\Legacy\Code\entities\ClassEntity;
-use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
-use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
-use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
-use ZnCore\Base\Legacy\Code\enums\AccessEnum;
-use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
@@ -21,6 +15,9 @@ abstract class BaseScenario
     public $domainNamespace;
     public $name;
     public $attributes;
+
+    private $fileGenerator;
+    private $classGenerator;
 
     /** @var BuildDto */
     public $buildDto;
@@ -47,6 +44,22 @@ abstract class BaseScenario
         return false;
     }
 
+    public function getFileGenerator(): FileGenerator
+    {
+        if ($this->fileGenerator == null) {
+            $this->fileGenerator = new FileGenerator();
+        }
+        return $this->fileGenerator;
+    }
+
+    public function getClassGenerator(): ClassGenerator
+    {
+        if ($this->classGenerator) {
+            $this->classGenerator = new ClassGenerator();
+        }
+        return $this->classGenerator;
+    }
+
     protected function getClassName(): string
     {
         return Inflector::classify($this->buildDto->name) . $this->typeName();
@@ -57,11 +70,13 @@ abstract class BaseScenario
         return $this->classNamespace() . '\\' . $this->getClassName();
     }
 
-    protected function bundleNamespace(): string {
+    protected function bundleNamespace(): string
+    {
         return \ZnCore\Base\Helpers\ClassHelper::getNamespace($this->domainNamespace);
     }
 
-    public function classNamespace(): string {
+    public function classNamespace(): string
+    {
         return $this->domainNamespace . '\\' . $this->classDir();
     }
 
@@ -93,7 +108,8 @@ abstract class BaseScenario
         ClassHelper::generateFile($this->getInterfaceName(), $fileGenerator->generate());
     }
 
-    protected function generateFileCode(FileGenerator $fileGenerator) {
+    protected function generateFileCode(FileGenerator $fileGenerator)
+    {
         $phpCode = $fileGenerator->generate();
         foreach ($fileGenerator->getUses() as $useItem) {
             $useClass = $useItem[0];

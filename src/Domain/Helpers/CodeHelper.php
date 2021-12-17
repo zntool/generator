@@ -2,8 +2,6 @@
 
 namespace ZnTool\Generator\Domain\Helpers;
 
-use ZnCore\Base\Legacy\Code\entities\CodeEntity;
-use ZnCore\Base\Legacy\Code\render\CodeRender;
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnCore\Base\Libs\Store\Store;
 

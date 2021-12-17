@@ -2,11 +2,6 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use ZnCore\Base\Legacy\Code\entities\ClassEntity;
-use ZnCore\Base\Legacy\Code\entities\ClassUseEntity;
-use ZnCore\Base\Legacy\Code\entities\ClassVariableEntity;
-use ZnCore\Base\Legacy\Code\entities\InterfaceEntity;
-use ZnCore\Base\Legacy\Code\enums\AccessEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
 use ZnTool\Generator\Domain\Helpers\TemplateCodeHelper;
