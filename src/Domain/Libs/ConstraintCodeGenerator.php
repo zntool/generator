@@ -81,3 +81,25 @@ class ConstraintCodeGenerator
         return $validationRules;
     }
 }
+
+/*
+id
+user_id
+title
+name
+group_name
+group_title
+description
+like_count
+store_size
+is_accepted
+has_child
+props
+group_props
+status_id
+created_at
+updated_at
+expired_at
+
+
+ */
