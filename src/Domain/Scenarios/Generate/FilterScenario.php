@@ -36,11 +36,6 @@ class FilterScenario extends BaseEntityScenario
         $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
 
-        $fileGenerator->setUse('Symfony\Component\Validator\Constraints', 'Assert');
-        $fileGenerator->setUse('Symfony\Component\Validator\Mapping\ClassMetadata');
-        $this->addInterface('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
-//        $this->addInterface('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
-
         $this->generateValidationRules($this->attributes);
 
         $this->generateAttributes($this->attributes);

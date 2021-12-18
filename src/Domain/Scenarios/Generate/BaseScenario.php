@@ -5,6 +5,7 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\InterfaceGenerator;
+use ZnCore\Base\Helpers\InstanceHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
@@ -37,6 +38,20 @@ abstract class BaseScenario
             $this->createInterface();
         }
         $this->createClass();
+    }
+
+    protected function tab(int $repeat = 1): string
+    {
+        return str_repeat(' ', $repeat * 4);
+    }
+
+    protected function createGenerator(string $class): BaseScenario
+    {
+        $generator = InstanceHelper::create($class);
+        $generator->name = $this->name;
+        $generator->buildDto = $this->buildDto;
+        $generator->domainNamespace = $this->domainNamespace;
+        return $generator;
     }
 
     protected function isMakeInterface(): bool
@@ -110,7 +125,7 @@ abstract class BaseScenario
     protected function createInterface()
     {
         $fileGenerator = new FileGenerator();
-        $interfaceGenerator = new InterfaceGenerator;
+        $interfaceGenerator = new InterfaceGenerator();
         $interfaceGenerator->setName($this->getInterfaceName());
 
         $fileGenerator->setClass($interfaceGenerator);

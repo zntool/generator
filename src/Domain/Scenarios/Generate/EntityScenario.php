@@ -7,6 +7,8 @@ use Zend\Code\Generator\MethodGenerator;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
+use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Libs\ConstraintCodeGenerator;
 use ZnTool\Package\Domain\Helpers\PackageHelper;
@@ -32,13 +34,8 @@ class EntityScenario extends BaseEntityScenario
         $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
 
-        $fileGenerator->setUse('Symfony\Component\Validator\Constraints', 'Assert');
-        $fileGenerator->setUse('Symfony\Component\Validator\Mapping\ClassMetadata');
-        $this->addInterface('ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface');
-        $this->addInterface('ZnCore\Domain\Interfaces\Entity\UniqueInterface');
-
         if (in_array('id', $this->attributes)) {
-            $this->addInterface('ZnCore\Domain\Interfaces\Entity\EntityIdInterface');
+            $this->addInterface(EntityIdInterface::class);
         }
 
         if (in_array('created_at', $this->attributes)) {
@@ -48,10 +45,7 @@ class EntityScenario extends BaseEntityScenario
         }
 
         $this->generateValidationRules($this->attributes);
-
-        $methodGenerator = $this->generateUniqueMethod();
-        $classGenerator->addMethodFromGenerator($methodGenerator);
-
+        $this->generateUniqueMethod();
         $this->generateAttributes($this->attributes);
 
         $fileGenerator->setNamespace($this->classNamespace());
@@ -72,23 +66,20 @@ class EntityScenario extends BaseEntityScenario
         $storeFile = new StoreFile($containerFileName);
         $containerConfig = $storeFile->load();
 
-        $repoGen = new RepositoryScenario();
-        $repoGen->buildDto = $this->buildDto;
-        $repoGen->domainNamespace = $this->domainNamespace;
-        $repoGen->name = $this->name;
-
+        $repoGen = $this->createGenerator(RepositoryScenario::class);
         $containerConfig['entities'][$fullClassName] = $repoGen->getInterfaceFullName();
         $storeFile->save($containerConfig);
     }
 
-    private function generateUniqueMethod(): MethodGenerator
+    private function generateUniqueMethod()
     {
+        $this->addInterface(UniqueInterface::class);
         $methodBody = "return [];";
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('unique');
         $methodGenerator->setBody($methodBody);
         $methodGenerator->setReturnType('array');
-        return $methodGenerator;
+        $this->getClassGenerator()->addMethodFromGenerator($methodGenerator);
     }
 
     protected function generateValidationRulesForAttribute(string $attribute, ConstraintCodeGenerator $constraintCodeGenerator = null): array {
@@ -101,6 +92,4 @@ class EntityScenario extends BaseEntityScenario
         $validationRules = ArrayHelper::merge($validationRules, $constraintCodeGenerator->generateCode($attribute));
         return $validationRules;
     }
-
-
 }

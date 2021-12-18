@@ -2,11 +2,14 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
+use ZnCore\Base\Helpers\InstanceHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface;
 
 abstract class BaseEntityScenario extends BaseScenario
 {
@@ -15,10 +18,7 @@ abstract class BaseEntityScenario extends BaseScenario
 
     public function getEntityAttributes(): array
     {
-        $entityScenario = new EntityScenario();
-        $entityScenario->name = $this->name;
-        $entityScenario->buildDto = $this->buildDto;
-        $entityScenario->domainNamespace = $this->domainNamespace;
+        $entityScenario = $this->createGenerator(EntityScenario::class);
         $entityClass = $entityScenario->getFullClassName();
 
         $attributes = [];
@@ -46,10 +46,13 @@ abstract class BaseEntityScenario extends BaseScenario
 
     protected function generateValidationRules(array $attributes)
     {
+        $this->addInterface(ValidateEntityByMetadataInterface::class);
+        $this->getFileGenerator()->setUse('Symfony\Component\Validator\Constraints', 'Assert');
+        $this->getFileGenerator()->setUse(ClassMetadata::class);
         $validateBody = $this->generateValidationRulesBody($attributes);
         $parameterGenerator = new ParameterGenerator;
         $parameterGenerator->setName('metadata');
-        $parameterGenerator->setType('Symfony\Component\Validator\Mapping\ClassMetadata');
+        $parameterGenerator->setType(ClassMetadata::class);
         $this->getClassGenerator()->addMethod('loadValidatorMetadata', [$parameterGenerator], [MethodGenerator::FLAG_STATIC], $validateBody);
     }
 

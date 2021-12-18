@@ -44,7 +44,8 @@ class RpcControllerScenario extends BaseScenario
         foreach ($di as $name => $type) {
             $parameterGenerator = new ParameterGenerator;
             $parameterGenerator->setName($name);
-            $parameterGenerator->setType($type);
+            $this->getFileGenerator()->setUse($type);
+            $parameterGenerator->setType(basename($type));
 //            $parameterGenerator->setType(\ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($type));
 //            $fileGenerator->setUse($type);
             $methodGenerator->setParameter($parameterGenerator);
@@ -70,11 +71,7 @@ class RpcControllerScenario extends BaseScenario
         $classGenerator->setExtendedClass(BaseCrudRpcController::class);
         $fileGenerator->setUse(BaseCrudRpcController::class);
 
-        $serviceGenerator = new ServiceScenario();
-        $serviceGenerator->name = $this->name;
-        $serviceGenerator->buildDto = $this->buildDto;
-        $serviceGenerator->domainNamespace = $this->domainNamespace;
-
+        $serviceGenerator = $this->createGenerator(ServiceScenario::class);
         $serviceInterfaceName = $serviceGenerator->getInterfaceFullName();
 
         $di = [
@@ -118,10 +115,7 @@ class RpcControllerScenario extends BaseScenario
         $fileGenerator = new FileGenerator();
         $fileGenerator->setUse($this->getFullClassName());
 
-        $permissionEnumScenario = new PermissionEnumScenario();
-        $permissionEnumScenario->name = $this->name;
-        $permissionEnumScenario->buildDto = $this->buildDto;
-        $permissionEnumScenario->domainNamespace = $this->domainNamespace;
+        $permissionEnumScenario = $this->createGenerator(PermissionEnumScenario::class);
 
         $fileGenerator->setUse($permissionEnumScenario->getFullClassName());
 

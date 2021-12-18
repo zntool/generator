@@ -2,11 +2,13 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use Doctrine\Inflector\Inflector;
+use Illuminate\Database\Schema\Blueprint;
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
+use ZnLib\Migration\Domain\Base\BaseCreateTableMigration;
 use ZnTool\Generator\Domain\Helpers\TemplateCodeHelper;
 use ZnTool\Package\Domain\Helpers\PackageHelper;
 use Zend\Code\Generator\FileGenerator;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 
 class MigrationScenario extends BaseScenario
 {
@@ -24,7 +26,7 @@ class MigrationScenario extends BaseScenario
     protected function getClassName(): string
     {
         $timeStr = date('Y_m_d_His');
-        $tableName = \ZnCore\Base\Legacy\Yii\Helpers\Inflector::underscore($this->name);
+        $tableName = Inflector::underscore($this->name);
         $className = "m_{$timeStr}_create_{$tableName}_table";
         return $className;
     }
@@ -35,11 +37,11 @@ class MigrationScenario extends BaseScenario
         $fileGenerator = $this->getFileGenerator();
 
         $fileGenerator->setNamespace('Migrations');
-        $fileGenerator->setUse('Illuminate\Database\Schema\Blueprint');
-        $fileGenerator->setUse('ZnLib\Migration\Domain\Base\BaseCreateTableMigration');
+        $fileGenerator->setUse(Blueprint::class);
+        $fileGenerator->setUse(BaseCreateTableMigration::class);
 
         $tableName = $this->buildDto->domainName . '_' . $this->buildDto->name;
-        $tableName = \ZnCore\Base\Legacy\Yii\Helpers\Inflector::underscore($tableName);
+        $tableName = Inflector::underscore($tableName);
         $code = TemplateCodeHelper::generateMigrationClassCode($this->getClassName(), $this->buildDto->attributes, $tableName);
 
         $fileGenerator->setBody($code);
