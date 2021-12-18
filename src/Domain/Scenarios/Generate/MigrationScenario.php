@@ -33,8 +33,7 @@ class MigrationScenario extends BaseScenario
 
     protected function createClass()
     {
-
-        $fileGenerator = $this->getFileGenerator();
+        $fileGenerator = new FileGenerator();
 
         $fileGenerator->setNamespace('Migrations');
         $fileGenerator->setUse(Blueprint::class);
