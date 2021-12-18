@@ -19,7 +19,8 @@ class FormScenario extends FilterScenario
         return 'Forms';
     }
 
-    protected function generateValidationRulesForAttribute(string $attribute, ConstraintCodeGenerator $constraintCodeGenerator = null): array {
+    protected function generateValidationRulesForAttribute(string $attribute, ConstraintCodeGenerator $constraintCodeGenerator = null): array
+    {
         $attributeName = Inflector::variablize($attribute);
         $validationRules = [];
         $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\NotBlank());";

@@ -38,6 +38,6 @@ class RepositoryInterfaceScenario extends BaseInterfaceScenario
         }
 //        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
 //        $fileGenerator->setClass($interfaceGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());
+        ClassHelper::generateFile($this->getFullClassName(), $fileGenerator->generate());
     }
 }

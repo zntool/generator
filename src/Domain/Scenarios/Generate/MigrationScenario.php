@@ -3,15 +3,22 @@
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Illuminate\Database\Schema\Blueprint;
+use Zend\Code\Generator\FileGenerator;
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnLib\Migration\Domain\Base\BaseCreateTableMigration;
 use ZnTool\Generator\Domain\Helpers\TemplateCodeHelper;
 use ZnTool\Package\Domain\Helpers\PackageHelper;
-use Zend\Code\Generator\FileGenerator;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 
 class MigrationScenario extends BaseScenario
 {
+
+    private $time;
+
+    public function __construct()
+    {
+        $this->time = date('Y_m_d_His');
+    }
 
     public function typeName()
     {
@@ -25,9 +32,8 @@ class MigrationScenario extends BaseScenario
 
     protected function getClassName(): string
     {
-        $timeStr = date('Y_m_d_His');
         $tableName = Inflector::underscore($this->name);
-        $className = "m_{$timeStr}_create_{$tableName}_table";
+        $className = "m_{$this->time}_create_{$tableName}_table";
         return $className;
     }
 
@@ -55,5 +61,4 @@ class MigrationScenario extends BaseScenario
         $fileName = $dir . '/' . $className . '.php';
         return $fileName;
     }
-
 }

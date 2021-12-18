@@ -2,20 +2,14 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\DocBlock\Tag\MethodTag;
 use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
-use Zend\Code\Generator\PropertyGenerator;
-use Zend\Code\Reflection\DocBlockReflection;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
-use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
-use ZnUser\Notify\Domain\Interfaces\Repositories\TransportRepositoryInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Helpers\LocationHelper;
@@ -34,28 +28,15 @@ class ServiceScenario extends BaseScenario
         return 'Services';
     }
 
-    protected function isMakeInterface(): bool
+    /*protected function isMakeInterface(): bool
     {
         return true;
     }
 
     protected function createInterface()
     {
-        $serviceInterfaceScenario = $this->createGenerator(ServiceInterfaceScenario::class);
-        $serviceInterfaceScenario->run();
 
-        /*$fileGenerator = new FileGenerator();
-        $interfaceGenerator = new InterfaceGenerator();
-        $interfaceGenerator->setName($this->getInterfaceName());
-        if ($this->buildDto->isCrudService) {
-            $fileGenerator->setUse(CrudServiceInterface::class);
-            $interfaceGenerator->setImplementedInterfaces(['CrudServiceInterface']);
-        }
-//        $fileGenerator->setNamespace($this->classNamespace());
-        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
-        $fileGenerator->setClass($interfaceGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());*/
-    }
+    }*/
 
     protected function createClass()
     {
@@ -64,16 +45,23 @@ class ServiceScenario extends BaseScenario
         $fileGenerator = $this->getFileGenerator();
         $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
-        if ($this->isMakeInterface()) {
-            $classGenerator->setImplementedInterfaces([$this->getInterfaceFullName()]);
-            $fileGenerator->setUse($this->getInterfaceFullName());
-        }
+
+        $serviceInterfaceScenario = $this->createGenerator(ServiceInterfaceScenario::class);
+        $serviceInterfaceScenario->run();
+        $interfaceFullName = $serviceInterfaceScenario->getFullClassName();
+        $fileGenerator->setUse($interfaceFullName);
+        $classGenerator->setImplementedInterfaces([$interfaceFullName]);
 
 
-        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
-        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
+//        $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
+//        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
 //        $fileGenerator->setUse($repositoryInterfaceFullClassName);
         //$repositoryInterfaceClassName = basename($repositoryInterfaceFullClassName);
+
+
+        $repositoryInterfaceScenario = $this->createGenerator(RepositoryInterfaceScenario::class);
+        $repositoryInterfaceFullClassName = $repositoryInterfaceScenario->getFullClassName();
+        $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
         $fileGenerator->setUse($repositoryInterfaceFullClassName);
 
 //        $classGenerator->addProperty('em', null, PropertyGenerator::FLAG_PRIVATE);
@@ -138,7 +126,8 @@ class ServiceScenario extends BaseScenario
         $this->updateContainerConfig($fileGenerator);
     }
 
-    private function generateConstructMethod() {
+    private function generateConstructMethod()
+    {
         $this->getFileGenerator()->setUse(EntityManagerInterface::class);
         $parameterEm = new ParameterGenerator;
         $parameterEm->setName('em');
@@ -152,7 +141,8 @@ class ServiceScenario extends BaseScenario
         $this->getClassGenerator()->addMethods([$methodGenerator]);
     }
 
-    private function updateContainerConfig(FileGenerator $fileGenerator) {
+    private function updateContainerConfig(FileGenerator $fileGenerator)
+    {
         $fullClassName = $this->getFullClassName();
         $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
         $storeFile = new StoreFile($containerFileName);
@@ -161,7 +151,8 @@ class ServiceScenario extends BaseScenario
         $storeFile->save($containerConfig);
     }
 
-    private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator {
+    private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator
+    {
         $tableName = "{$this->buildDto->domainName}_{$this->buildDto->name}";
         $methodBody = "return {$entityPureClassName}::class;";
         $methodGenerator = new MethodGenerator;

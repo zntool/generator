@@ -4,12 +4,9 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
-use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
-use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
-use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
 use ZnLib\Db\Base\BaseEloquentCrudRepository;
 use ZnLib\Db\Base\BaseEloquentRepository;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
@@ -32,33 +29,21 @@ class RepositoryScenario extends BaseScenario
         return 'Repositories';
     }
 
-    protected function isMakeInterface(): bool
+    /*protected function isMakeInterface(): bool
     {
         return true;
     }
 
     protected function createInterface()
     {
-        $repositoryInterfaceScenario = $this->createGenerator(RepositoryInterfaceScenario::class);
-        $repositoryInterfaceScenario->run();
 
-        /*$fileGenerator = new FileGenerator();
-        $interfaceGenerator = new InterfaceGenerator;
-        $interfaceGenerator->setName($this->getInterfaceName());
-        if ($this->buildDto->isCrudRepository) {
-            $fileGenerator->setUse(CrudRepositoryInterface::class);
-            $interfaceGenerator->setImplementedInterfaces(['CrudRepositoryInterface']);
-        } else {
-            $fileGenerator->setUse(RepositoryInterface::class);
-            $interfaceGenerator->setImplementedInterfaces(['RepositoryInterface']);
-        }
-        $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
-        $fileGenerator->setClass($interfaceGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());*/
-    }
+    }*/
 
     protected function createClass()
     {
+        $repositoryInterfaceScenario = $this->createGenerator(RepositoryInterfaceScenario::class);
+        $repositoryInterfaceScenario->run();
+
         foreach ($this->buildDto->driver as $driver) {
             $this->createOneClass($driver);
         }
