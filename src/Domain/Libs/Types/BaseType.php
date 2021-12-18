@@ -2,16 +2,35 @@
 
 namespace ZnTool\Generator\Domain\Libs\Types;
 
-use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
+use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 
 abstract class BaseType
 {
 
     abstract public function getType(): string;
+
     abstract public function isMatch(string $attributeName): bool;
 
-    protected function matchSuffixOrEqual(string $attributeName, string $match): bool {
+    public static function match(string $attributeName): bool
+    {
+        $typeInstance = self::getInstance();
+        return $typeInstance->isMatch(Inflector::underscore($attributeName));
+    }
+
+    /**
+     * @return BaseType
+     */
+    public static function getInstance()
+    {
+        /** @var BaseType $typeInstance */
+        $typeInstance = ClassHelper::createInstance(static::class);
+        return $typeInstance;
+    }
+
+    protected function matchSuffixOrEqual(string $attributeName, string $match): bool
+    {
         return TypeAttributeHelper::isMatchSuffix($attributeName, '_' . $match) || $attributeName == $match;
     }
 }

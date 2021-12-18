@@ -43,7 +43,8 @@ class ConstraintCodeGenerator
         $validationRules = [];
         $attributeName = Inflector::variablize($attribute);
 //        $isInt = FieldRenderHelper::isMatchSuffix($attribute, '_id');
-        if(TypeAttributeHelper::isMatchTypeByClass($attributeName, IntPositiveType::class)) {
+
+        if(IntPositiveType::match($attributeName)) {
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\Positive());";
         }
 
@@ -53,7 +54,7 @@ class ConstraintCodeGenerator
         }*/
 
 //        $isStatus = $attribute == 'status_id';
-        if(TypeAttributeHelper::isMatchTypeByClass($attributeName, StatusIdType::class)) {
+        if(StatusIdType::match($attributeName)) {
             $this->fileGenerator->setUse(\ZnCore\Base\Enums\StatusEnum::class);
             $this->fileGenerator->setUse(\ZnCore\Domain\Constraints\Enum::class);
             $validationRules[] =
@@ -63,17 +64,17 @@ class ConstraintCodeGenerator
         }
 
         //$isBoolean = FieldRenderHelper::isMatchPrefix($attribute, 'is_');
-        if(TypeAttributeHelper::isMatchTypeByClass($attributeName, BoolType::class)) {
+        if(BoolType::match($attributeName)) {
             $this->fileGenerator->setUse(\ZnCore\Domain\Constraints\Boolean::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Boolean());";
         }
 
         //$isCount = FieldRenderHelper::isMatchSuffix($attribute, '_count') || $attribute == 'size';
-        if(TypeAttributeHelper::isMatchTypeByClass($attributeName, IntPositiveOrZeroType::class)) {
+        if(IntPositiveOrZeroType::match($attributeName)) {
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\PositiveOrZero());";
         }
 
-        if(TypeAttributeHelper::isMatchTypeByClass($attributeName, ArrayType::class)) {
+        if(ArrayType::match($attributeName)) {
             $this->fileGenerator->setUse(\ZnCore\Domain\Constraints\Arr::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Arr());";
         }

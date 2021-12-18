@@ -62,6 +62,11 @@ class RepositoryScenario extends BaseScenario
         }
     }
 
+   /* public function getFullClassName(): string
+    {
+        return $this->classNamespace() . '\\' . $this->getClassName();
+    }*/
+
     protected function createOneClass(string $driver)
     {
         $className = $this->getClassName();
@@ -97,7 +102,7 @@ class RepositoryScenario extends BaseScenario
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
-        ClassHelper::generateFile($this->getFullClassName(), $phpCode);
+        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getClassName(), $phpCode);
 
         $this->updateContainerConfig($fileGenerator);
     }
