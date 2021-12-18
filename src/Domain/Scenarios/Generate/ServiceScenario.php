@@ -41,7 +41,10 @@ class ServiceScenario extends BaseScenario
 
     protected function createInterface()
     {
-        $fileGenerator = new FileGenerator();
+        $serviceInterfaceScenario = $this->createGenerator(ServiceInterfaceScenario::class);
+        $serviceInterfaceScenario->run();
+
+        /*$fileGenerator = new FileGenerator();
         $interfaceGenerator = new InterfaceGenerator();
         $interfaceGenerator->setName($this->getInterfaceName());
         if ($this->buildDto->isCrudService) {
@@ -51,7 +54,7 @@ class ServiceScenario extends BaseScenario
 //        $fileGenerator->setNamespace($this->classNamespace());
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
         $fileGenerator->setClass($interfaceGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());
+        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());*/
     }
 
     protected function createClass()

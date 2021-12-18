@@ -91,12 +91,22 @@ abstract class BaseScenario
         return $this->fileGenerator;
     }
 
+    public function setFileGenerator(FileGenerator $fileGenerator): void
+    {
+        $this->fileGenerator = $fileGenerator;
+    }
+
     public function getClassGenerator(): ClassGenerator
     {
         if ($this->classGenerator == null) {
             $this->classGenerator = new ClassGenerator();
         }
         return $this->classGenerator;
+    }
+
+    public function setClassGenerator(ClassGenerator $classGenerator): void
+    {
+        $this->classGenerator = $classGenerator;
     }
 
     protected function getClassName(): string

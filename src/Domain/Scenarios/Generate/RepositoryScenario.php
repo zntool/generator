@@ -39,7 +39,10 @@ class RepositoryScenario extends BaseScenario
 
     protected function createInterface()
     {
-        $fileGenerator = new FileGenerator();
+        $repositoryInterfaceScenario = $this->createGenerator(RepositoryInterfaceScenario::class);
+        $repositoryInterfaceScenario->run();
+
+        /*$fileGenerator = new FileGenerator();
         $interfaceGenerator = new InterfaceGenerator;
         $interfaceGenerator->setName($this->getInterfaceName());
         if ($this->buildDto->isCrudRepository) {
@@ -51,7 +54,7 @@ class RepositoryScenario extends BaseScenario
         }
         $fileGenerator->setNamespace($this->domainNamespace . '\\' . $this->interfaceDir());
         $fileGenerator->setClass($interfaceGenerator);
-        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());
+        ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . $this->getInterfaceName(), $fileGenerator->generate());*/
     }
 
     protected function createClass()
