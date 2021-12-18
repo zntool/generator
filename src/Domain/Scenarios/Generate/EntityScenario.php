@@ -49,7 +49,7 @@ class EntityScenario extends BaseEntityScenario
         $this->generateAttributes($this->attributes);
 
         $fileGenerator->setNamespace($this->classNamespace());
-        $fileGenerator->setClass($classGenerator);
+//        $fileGenerator->setClass($classGenerator);
         $fileGenerator->setSourceDirty(false);
 
         $phpCode = $this->generateFileCode($fileGenerator);

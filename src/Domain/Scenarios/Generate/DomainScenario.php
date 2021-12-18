@@ -39,7 +39,7 @@ class DomainScenario extends BaseScenario
                 'body' => "return '{$this->buildDto->domainName}';",
             ]),
         ]);
-        $fileGenerator->setClass($classGenerator);
+//        $fileGenerator->setClass($classGenerator);
 //        $fileGenerator->setUse(DomainInterface::class);
         $fileGenerator->setNamespace($this->classNamespace());
         ClassHelper::generateFile($fileGenerator->getNamespace() . '\\' . 'Domain', $fileGenerator->generate());

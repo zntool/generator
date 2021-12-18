@@ -67,6 +67,7 @@ class RpcControllerScenario extends BaseScenario
         $fileGenerator = $this->getFileGenerator();
         $classGenerator = $this->getClassGenerator();
         $classGenerator->setName($className);
+//        $fileGenerator->setClass($classGenerator);
 
         $classGenerator->setExtendedClass(BaseCrudRpcController::class);
         $fileGenerator->setUse(BaseCrudRpcController::class);
@@ -80,19 +81,22 @@ class RpcControllerScenario extends BaseScenario
         $diMethodGenerator = $this->generateDiMethod($classGenerator, $di);
         $classGenerator->addMethodFromGenerator($diMethodGenerator);
 
-        $methodGenerator = new MethodGenerator;
-        $methodGenerator->setName('allowRelations');
-        $methodGenerator->setReturnType('array');
-        $methodGenerator->setBody('return [];');
-        $classGenerator->addMethodFromGenerator($methodGenerator);
+        $this->generateAllowRelationsMethod();
 
         $fileGenerator->setNamespace($this->classNamespace());
-        $fileGenerator->setClass($classGenerator);
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
         ClassHelper::generateFile($this->getFullClassName(), $phpCode);
         $this->generateRoutes();
+    }
+
+    protected function generateAllowRelationsMethod() {
+        $methodGenerator = new MethodGenerator;
+        $methodGenerator->setName('allowRelations');
+        $methodGenerator->setReturnType('array');
+        $methodGenerator->setBody('return [];');
+        $this->getClassGenerator()->addMethodFromGenerator($methodGenerator);
     }
 
     protected function generateRouteCode(array $operationData, string $enumClass): string {

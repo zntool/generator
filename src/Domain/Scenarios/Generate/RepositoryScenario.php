@@ -2,20 +2,19 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use ZnCore\Base\Libs\Store\StoreFile;
-use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
-use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
-use ZnTool\Generator\Domain\Helpers\ClassHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnTool\Generator\Domain\Enums\TypeEnum;
-use ZnTool\Generator\Domain\Helpers\LocationHelper;
-use ZnLib\Db\Base\BaseEloquentCrudRepository;
-use ZnLib\Db\Base\BaseEloquentRepository;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Store\StoreFile;
+use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
+use ZnCore\Domain\Interfaces\Repository\RepositoryInterface;
+use ZnLib\Db\Base\BaseEloquentCrudRepository;
+use ZnLib\Db\Base\BaseEloquentRepository;
+use ZnTool\Generator\Domain\Enums\TypeEnum;
+use ZnTool\Generator\Domain\Helpers\ClassHelper;
+use ZnTool\Generator\Domain\Helpers\LocationHelper;
 use ZnTool\Package\Domain\Helpers\PackageHelper;
 
 class RepositoryScenario extends BaseScenario
@@ -62,10 +61,10 @@ class RepositoryScenario extends BaseScenario
         }
     }
 
-   /* public function getFullClassName(): string
-    {
-        return $this->classNamespace() . '\\' . $this->getClassName();
-    }*/
+    /* public function getFullClassName(): string
+     {
+         return $this->classNamespace() . '\\' . $this->getClassName();
+     }*/
 
     protected function createOneClass(string $driver)
     {
@@ -73,11 +72,12 @@ class RepositoryScenario extends BaseScenario
         $driverDirName = Inflector::camelize($driver);
         $repoClassName = $driverDirName . '\\' . $className;
         $fileGenerator = new FileGenerator();
-        $classGenerator = $this->getClassGenerator();
+        $classGenerator = new ClassGenerator();
+        $fileGenerator->setClass($classGenerator);
         $fileGenerator->setNamespace($this->classNamespace() . '\\' . $driverDirName);
 
         $parentClass = $this->parentClass($driver);
-        if($parentClass) {
+        if ($parentClass) {
             $fileGenerator->setUse($parentClass);
             $classGenerator->setExtendedClass(basename($parentClass));
         }
@@ -98,7 +98,6 @@ class RepositoryScenario extends BaseScenario
             $fileGenerator->setUse($this->getInterfaceFullName());
         }
 
-        $fileGenerator->setClass($classGenerator);
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
@@ -107,7 +106,8 @@ class RepositoryScenario extends BaseScenario
         $this->updateContainerConfig($fileGenerator);
     }
 
-    private function updateContainerConfig(FileGenerator $fileGenerator) {
+    private function updateContainerConfig(FileGenerator $fileGenerator)
+    {
         $fullClassName = $this->getFullClassName();
         $className = $this->getClassName();
         $containerFileName = PackageHelper::pathByNamespace($this->domainNamespace) . '/config/container.php';
@@ -117,7 +117,8 @@ class RepositoryScenario extends BaseScenario
         $storeFile->save($containerConfig);
     }
 
-    private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator {
+    private function generateGetEntityClassMethod(string $entityPureClassName): MethodGenerator
+    {
         $tableName = "{$this->buildDto->domainName}_{$this->buildDto->name}";
         $methodBody = "return {$entityPureClassName}::class;";
         $methodGenerator = new MethodGenerator;
@@ -127,7 +128,8 @@ class RepositoryScenario extends BaseScenario
         return $methodGenerator;
     }
 
-    private function generateTableNameMethod(): MethodGenerator {
+    private function generateTableNameMethod(): MethodGenerator
+    {
         $tableName = "{$this->buildDto->domainName}_{$this->buildDto->name}";
         $tableName = Inflector::underscore($tableName);
         $methodBody = "return '{$tableName}';";

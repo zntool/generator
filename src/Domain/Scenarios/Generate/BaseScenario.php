@@ -5,6 +5,9 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\InterfaceGenerator;
+use Zend\Code\Generator\MethodGenerator;
+use Zend\Code\Generator\ParameterGenerator;
+use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Base\Helpers\InstanceHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
@@ -45,6 +48,26 @@ abstract class BaseScenario
         return str_repeat(' ', $repeat * 4);
     }
 
+    /*protected function generateDiMethod(ClassGenerator $classGenerator, array $di) {
+        $methodGenerator = new MethodGenerator;
+        $methodGenerator->setName('__construct');
+        $methodBody = '';
+        foreach ($di as $name => $type) {
+            $parameterGenerator = new ParameterGenerator;
+            $parameterGenerator->setName($name);
+            $this->getFileGenerator()->setUse($type);
+            $parameterGenerator->setType(basename($type));
+            $methodGenerator->setParameter($parameterGenerator);
+            $methodBody .= "\$this->{$name} = \${$name};\n";
+            $property = new PropertyGenerator();
+            $property->setVisibility(PropertyGenerator::VISIBILITY_PRIVATE);
+            $property->setName($name);
+            $classGenerator->addPropertyFromGenerator($property);
+        }
+        $methodGenerator->setBody($methodBody);
+        $classGenerator->addMethodFromGenerator($diMethodGenerator);
+    }*/
+
     protected function createGenerator(string $class): BaseScenario
     {
         $generator = InstanceHelper::create($class);
@@ -63,6 +86,7 @@ abstract class BaseScenario
     {
         if ($this->fileGenerator == null) {
             $this->fileGenerator = new FileGenerator();
+            $this->fileGenerator->setClass($this->getClassGenerator());
         }
         return $this->fileGenerator;
     }
@@ -163,7 +187,7 @@ abstract class BaseScenario
             }
         }
         $fileGenerator->setNamespace($this->classNamespace());
-        $fileGenerator->setClass($classGenerator);
+//        $fileGenerator->setClass($classGenerator);
         ClassHelper::generateFile($this->getFullClassName(), $fileGenerator->generate());
     }
 }

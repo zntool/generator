@@ -42,7 +42,7 @@ class ServiceScenario extends BaseScenario
     protected function createInterface()
     {
         $fileGenerator = new FileGenerator();
-        $interfaceGenerator = new InterfaceGenerator;
+        $interfaceGenerator = new InterfaceGenerator();
         $interfaceGenerator->setName($this->getInterfaceName());
         if ($this->buildDto->isCrudService) {
             $fileGenerator->setUse(CrudServiceInterface::class);
@@ -65,7 +65,7 @@ class ServiceScenario extends BaseScenario
             $classGenerator->setImplementedInterfaces([$this->getInterfaceFullName()]);
             $fileGenerator->setUse($this->getInterfaceFullName());
         }
-        $fileGenerator->setUse(EntityManagerInterface::class);
+
 
         $repositoryInterfaceFullClassName = $this->buildDto->domainNamespace . LocationHelper::fullInterfaceName($this->name, TypeEnum::REPOSITORY);
         $repositoryInterfacePureClassName = basename($repositoryInterfaceFullClassName);
@@ -82,7 +82,7 @@ class ServiceScenario extends BaseScenario
             }
         }
         $fileGenerator->setNamespace($this->classNamespace());
-        $fileGenerator->setClass($classGenerator);
+//        $fileGenerator->setClass($classGenerator);
 
 
         if ($this->buildDto->isCrudService) {
@@ -93,21 +93,7 @@ class ServiceScenario extends BaseScenario
             $classGenerator->setExtendedClass('BaseService');
         }
 
-        $parameterGenerator = new ParameterGenerator;
-        $parameterGenerator->setName('em');
-        $parameterGenerator->setType(EntityManagerInterface::class);
-
-//        $parameterGenerator2 = new ParameterGenerator;
-//        $parameterGenerator2->setName('repository');
-//        $parameterGenerator2->setType($repositoryInterfacePureClassName);
-
-        $methodGenerator = new MethodGenerator;
-        $methodGenerator->setName('__construct');
-        $methodGenerator->setParameter($parameterGenerator);
-//        $methodGenerator->setParameter($parameterGenerator2);
-        $methodGenerator->setBody('$this->setEntityManager($em);' /*. PHP_EOL . '$this->repository = $repository;'*/);
-
-        $classGenerator->addMethods([$methodGenerator]);
+        $this->generateConstructMethod();
 
         $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
         $entityPureClassName = \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
@@ -147,6 +133,20 @@ class ServiceScenario extends BaseScenario
         ClassHelper::generateFile($this->getFullClassName(), $phpCode);
 
         $this->updateContainerConfig($fileGenerator);
+    }
+
+    private function generateConstructMethod() {
+        $this->getFileGenerator()->setUse(EntityManagerInterface::class);
+        $parameterEm = new ParameterGenerator;
+        $parameterEm->setName('em');
+        $parameterEm->setType(EntityManagerInterface::class);
+
+        $methodGenerator = new MethodGenerator;
+        $methodGenerator->setName('__construct');
+        $methodGenerator->setParameter($parameterEm);
+//        $methodGenerator->setParameter($parameterGenerator2);
+        $methodGenerator->setBody('$this->setEntityManager($em);' /*. PHP_EOL . '$this->repository = $repository;'*/);
+        $this->getClassGenerator()->addMethods([$methodGenerator]);
     }
 
     private function updateContainerConfig(FileGenerator $fileGenerator) {

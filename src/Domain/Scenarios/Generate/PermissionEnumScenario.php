@@ -114,7 +114,7 @@ class PermissionEnumScenario extends BaseScenario
         $this->generateGetInheritance($operations);
 
         $fileGenerator->setNamespace($this->classNamespace());
-        $fileGenerator->setClass($classGenerator);
+//        $fileGenerator->setClass($classGenerator);
 
         $phpCode = $this->generateFileCode($fileGenerator);
 
