@@ -103,6 +103,7 @@ abstract class BaseScenario
     {
         $this->getFileGenerator()->setUse($interface, $as);
         $this->implementedInterfaces[] = basename($interface);
+        $this->implementedInterfaces = array_unique($this->implementedInterfaces);
         $this->getClassGenerator()->setImplementedInterfaces($this->implementedInterfaces);
     }
 
