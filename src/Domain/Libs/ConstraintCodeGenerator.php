@@ -10,6 +10,7 @@ use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 use ZnTool\Generator\Domain\Libs\Types\ArrayType;
 use ZnTool\Generator\Domain\Libs\Types\BaseType;
 use ZnTool\Generator\Domain\Libs\Types\BoolType;
+use ZnTool\Generator\Domain\Libs\Types\I18nType;
 use ZnTool\Generator\Domain\Libs\Types\IntPositiveOrZeroType;
 use ZnTool\Generator\Domain\Libs\Types\IntPositiveType;
 use ZnTool\Generator\Domain\Libs\Types\IntType;
@@ -74,7 +75,7 @@ class ConstraintCodeGenerator
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Assert\PositiveOrZero());";
         }
 
-        if(ArrayType::match($attributeName)) {
+        if(ArrayType::match($attributeName) || I18nType::match($attributeName)) {
             $this->fileGenerator->setUse(\ZnCore\Domain\Constraints\Arr::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Arr());";
         }
@@ -86,7 +87,7 @@ class ConstraintCodeGenerator
 /*
 id
 user_id
-title
+title_i18n
 name
 group_name
 group_title

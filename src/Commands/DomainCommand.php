@@ -2,7 +2,9 @@
 
 namespace ZnTool\Generator\Commands;
 
+use Symfony\Component\Console\Question\Question;
 use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
 use ZnSandbox\Sandbox\Bundle\Domain\Entities\BundleEntity;
 use ZnSandbox\Sandbox\Bundle\Domain\Entities\DomainEntity;
@@ -46,8 +48,8 @@ class DomainCommand extends BaseGeneratorCommand
             'form',
             'migration',
             'permissionEnum',
+            'rpcController', // todo: CRUD, non CRUD select
 //            'domain',
-            'rpcController',
         ];
         $this->input($input, $output, $buildDto);
         $this->domainService->generate($buildDto);
@@ -91,7 +93,7 @@ class DomainCommand extends BaseGeneratorCommand
         $this->runInputScenario(TypeInputScenario::class, $input, $output, $buildDto);
         $this->runInputScenario(NameInputScenario::class, $input, $output, $buildDto);
 
-        if (in_array('entity', $buildDto->types)) {
+        if (array_intersect(['entity', 'filter', 'form', 'migration'], $buildDto->types)) {
             $this->runInputScenario(EntityAttributesInputScenario::class, $input, $output, $buildDto);
         }
 
@@ -112,23 +114,46 @@ class DomainCommand extends BaseGeneratorCommand
         $domainCollection = [];
         $domainCollectionNamespaces = [];
         foreach ($bundleCollection as $bundleEntity) {
+
             if ($bundleEntity->getDomain()) {
                 //$domainNamespace = ClassHelper::getNamespace($bundleEntity->getDomain()->getClassName());
-                $domainNamespace = $bundleEntity->getNamespace();
-                $domainName = $bundleEntity->getDomain()->getName();
-                $title = "$domainName ($domainNamespace)";
+                $bundleNamespace = $bundleEntity->getNamespace();
+                //$domainName = $bundleEntity->getDomain()->getName();
+//                $title = "$domainName ($bundleNamespace)";
+                $title = $bundleNamespace;
                 $domainCollection[] = $title;
                 $domainCollectionNamespaces[$title] = $bundleEntity->getDomain();
             }
             // dd($domainNamespace);
         }
 
+        $domainCollection['c'] = '- Create new bundle -';
+
         $output->writeln('');
         $question = new ChoiceQuestion(
-            'Select domain',
+            'Select bundle',
             $domainCollection
         );
-        $selectedDomain = $this->getHelper('question')->ask($input, $output, $question);
-        return $domainCollectionNamespaces[$selectedDomain];
+        $selectedIndex = $this->getHelper('question')->ask($input, $output, $question);
+
+//        dd($selectedDomain);
+        if($selectedIndex == 'c') {
+            $question = new Question('Enter bundle namespace: ');
+            $bundleNamespace = $this->getHelper('question')->ask($input, $output, $question);
+
+            $domainEntity = new DomainEntity();
+            $domainEntity->setName(Inflector::variablize(basename($bundleNamespace)));
+            $domainEntity->setNamespace($bundleNamespace);
+            $domainEntity->setClassName($bundleNamespace . '\\Domain');
+
+            return $domainEntity;
+            //dd($bundleNamespace);
+        } else {
+            $selectedBandleNamespace = $domainCollection[$selectedIndex];
+            //dd($domainCollectionNamespaces[$selectedBandleNamespace]);
+            return $domainCollectionNamespaces[$selectedBandleNamespace];
+        }
+
+//        return $domainCollectionNamespaces[$selectedDomain];
     }
 }
