@@ -52,7 +52,7 @@ class RpcControllerScenario extends BaseScenario
             $methodBody .= "\$this->{$name} = \${$name};\n";
 
             $property = new PropertyGenerator();
-            $property->setVisibility(PropertyGenerator::VISIBILITY_PRIVATE);
+            $property->setVisibility(PropertyGenerator::VISIBILITY_PROTECTED);
             $property->setName($name);
             $classGenerator->addPropertyFromGenerator($property);
         }
