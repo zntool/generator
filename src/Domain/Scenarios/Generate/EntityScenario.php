@@ -7,7 +7,7 @@ use Zend\Code\Generator\MethodGenerator;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
-use ZnCore\Domain\Interfaces\Entity\EntityIdInterface;
+use ZnCore\Contract\Domain\Interfaces\Entities\EntityIdInterface;
 use ZnCore\Domain\Interfaces\Entity\UniqueInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Libs\ConstraintCodeGenerator;
