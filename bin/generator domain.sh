@@ -1,2 +1,3 @@
 #!/bin/sh
-php console generator:domain
+cd ../../../bin
+php zn generator:domain

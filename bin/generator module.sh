@@ -1,2 +1,3 @@
 #!/bin/sh
-php console generator:module
+cd ../../../bin
+php zn generator:module
