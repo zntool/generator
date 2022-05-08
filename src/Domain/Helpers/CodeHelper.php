@@ -3,6 +3,7 @@
 namespace ZnTool\Generator\Domain\Helpers;
 
 use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
+use ZnCore\Base\Libs\FileSystem\Helpers\FileStorageHelper;
 use ZnCore\Base\Libs\Store\Store;
 
 class CodeHelper
@@ -19,7 +20,7 @@ class CodeHelper
 		$pathName = $codeEntity->fileName;
 		$fileName = $pathName . '.' . $codeEntity->fileExtension;
 		$code = CodeHelper::render($codeEntity);
-		FileHelper::save($fileName, $code);
+        FileStorageHelper::save($fileName, $code);
 	}
 	
 	private static function render(CodeEntity $codeEntity) {
