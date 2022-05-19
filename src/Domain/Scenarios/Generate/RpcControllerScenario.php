@@ -112,6 +112,8 @@ class RpcControllerScenario extends BaseScenario
         'handler_class' => {$this->getClassName()}::class,
         'handler_method' => '{$operationData['actionName']}',
         'status_id' => 100,
+        'title' => null,
+        'description' => null,
     ],";
     }
 
