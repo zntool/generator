@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use ZnCore\Domain\Interfaces\Repository\CrudRepositoryInterface;
+use ZnCore\Base\Libs\Repository\Interfaces\CrudRepositoryInterface;
 use ZnCore\Base\Libs\Repository\Interfaces\RepositoryInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 

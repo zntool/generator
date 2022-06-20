@@ -77,10 +77,10 @@ class ServiceScenario extends BaseScenario
 
 
         if ($this->buildDto->isCrudService) {
-            $fileGenerator->setUse('ZnCore\Domain\Base\BaseCrudService');
+            $fileGenerator->setUse('ZnCore\Base\Libs\Service\Base\BaseCrudService');
             $classGenerator->setExtendedClass('BaseCrudService');
         } else {
-            $fileGenerator->setUse('ZnCore\Domain\Base\BaseService');
+            $fileGenerator->setUse('ZnCore\Base\Libs\Service\Base\BaseService');
             $classGenerator->setExtendedClass('BaseService');
         }
 
