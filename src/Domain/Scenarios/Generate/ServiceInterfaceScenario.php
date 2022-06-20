@@ -13,7 +13,7 @@ use Zend\Code\Generator\PropertyGenerator;
 use Zend\Code\Reflection\DocBlockReflection;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
-use ZnCore\Domain\Interfaces\Libs\EntityManagerInterface;
+use ZnCore\Base\Libs\EntityManager\Interfaces\EntityManagerInterface;
 use ZnCore\Domain\Interfaces\Service\CrudServiceInterface;
 use ZnUser\Notify\Domain\Interfaces\Repositories\TransportRepositoryInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;

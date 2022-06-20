@@ -9,7 +9,7 @@ use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Base\Helpers\InstanceHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
+use ZnCore\Base\Libs\Validation\Interfaces\ValidationByMetadataInterface;
 
 abstract class BaseEntityScenario extends BaseScenario
 {
@@ -46,7 +46,7 @@ abstract class BaseEntityScenario extends BaseScenario
 
     protected function generateValidationRules(array $attributes)
     {
-        $this->addInterface(ValidateEntityByMetadataInterface::class);
+        $this->addInterface(ValidationByMetadataInterface::class);
         $this->getFileGenerator()->setUse('Symfony\Component\Validator\Constraints', 'Assert');
         $this->getFileGenerator()->setUse(ClassMetadata::class);
         $validateBody = $this->generateValidationRulesBody($attributes);
