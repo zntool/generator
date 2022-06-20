@@ -9,7 +9,7 @@ use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Base\Helpers\InstanceHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnCore\Domain\Interfaces\Entity\ValidateEntityByMetadataInterface;
+use ZnCore\Base\Libs\Entity\Interfaces\ValidateEntityByMetadataInterface;
 
 abstract class BaseEntityScenario extends BaseScenario
 {
