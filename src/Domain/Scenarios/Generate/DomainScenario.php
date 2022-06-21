@@ -3,7 +3,7 @@
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
-use ZnCore\Domain\Interfaces\DomainInterface;
+use ZnCore\Base\Libs\Domain\Interfaces\DomainInterface;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
