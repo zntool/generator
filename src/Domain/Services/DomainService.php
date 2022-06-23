@@ -3,7 +3,7 @@
 namespace ZnTool\Generator\Domain\Services;
 
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Interfaces\Services\DomainServiceInterface;
 use ZnTool\Generator\Domain\Scenarios\Generate\BaseScenario;

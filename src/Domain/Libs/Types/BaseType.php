@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Libs\Types;
 
-use ZnCore\Base\Helpers\ClassHelper;
+use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
 use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 

@@ -87,7 +87,7 @@ class ServiceScenario extends BaseScenario
         $this->generateConstructMethod();
 
         $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
-        $entityPureClassName = \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
+        $entityPureClassName = \ZnCore\Base\Libs\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
         $fileGenerator->setUse($entityFullClassName);
 
         $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);
@@ -113,7 +113,7 @@ class ServiceScenario extends BaseScenario
         /*$phpCode = $fileGenerator->generate();
         foreach ($fileGenerator->getUses() as $useItem) {
             $useClass = $useItem[0];
-            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
+            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Libs\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
         }*/
 
 
