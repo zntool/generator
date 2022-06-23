@@ -6,10 +6,10 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
-use ZnCore\Base\Libs\Instance\Helpers\InstanceHelper;
-use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
-use ZnCore\Base\Libs\Validation\Interfaces\ValidationByMetadataInterface;
+use ZnCore\Base\Instance\Helpers\InstanceHelper;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Base\Validation\Interfaces\ValidationByMetadataInterface;
 
 abstract class BaseEntityScenario extends BaseScenario
 {

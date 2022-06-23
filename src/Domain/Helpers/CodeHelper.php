@@ -2,8 +2,8 @@
 
 namespace ZnTool\Generator\Domain\Helpers;
 
-use ZnCore\Base\Libs\FileSystem\Helpers\FileStorageHelper;
-use ZnCore\Base\Libs\Store\Store;
+use ZnCore\Base\FileSystem\Helpers\FileStorageHelper;
+use ZnCore\Base\Store\Store;
 
 class CodeHelper
 {

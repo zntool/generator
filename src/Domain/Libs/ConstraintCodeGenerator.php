@@ -3,8 +3,8 @@
 namespace ZnTool\Generator\Domain\Libs;
 
 use Zend\Code\Generator\FileGenerator;
-use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
+use ZnCore\Base\Instance\Helpers\ClassHelper;
+use ZnCore\Base\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 use ZnTool\Generator\Domain\Libs\Types\ArrayType;
@@ -56,8 +56,8 @@ class ConstraintCodeGenerator
 
 //        $isStatus = $attribute == 'status_id';
         if(StatusIdType::match($attributeName)) {
-            $this->fileGenerator->setUse(\ZnCore\Base\Libs\Status\Enums\StatusEnum::class);
-            $this->fileGenerator->setUse(\ZnCore\Base\Libs\Enum\Constraints\Enum::class);
+            $this->fileGenerator->setUse(\ZnCore\Base\Status\Enums\StatusEnum::class);
+            $this->fileGenerator->setUse(\ZnCore\Base\Enum\Constraints\Enum::class);
             $validationRules[] =
                 "\$metadata->addPropertyConstraint('$attributeName', new Enum([
     'class' => StatusEnum::class,
@@ -66,7 +66,7 @@ class ConstraintCodeGenerator
 
         //$isBoolean = FieldRenderHelper::isMatchPrefix($attribute, 'is_');
         if(BoolType::match($attributeName)) {
-            $this->fileGenerator->setUse(\ZnCore\Base\Libs\Validation\Constraints\Boolean::class);
+            $this->fileGenerator->setUse(\ZnCore\Base\Validation\Constraints\Boolean::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Boolean());";
         }
 
@@ -76,7 +76,7 @@ class ConstraintCodeGenerator
         }
 
         if(ArrayType::match($attributeName) || I18nType::match($attributeName)) {
-            $this->fileGenerator->setUse(\ZnCore\Base\Libs\Arr\Constraints\Arr::class);
+            $this->fileGenerator->setUse(\ZnCore\Base\Arr\Constraints\Arr::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Arr());";
         }
 

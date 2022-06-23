@@ -2,8 +2,8 @@
 
 namespace ZnTool\Generator\Domain\Services;
 
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
-use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
+use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Interfaces\Services\DomainServiceInterface;
 use ZnTool\Generator\Domain\Scenarios\Generate\BaseScenario;

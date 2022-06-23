@@ -4,9 +4,9 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
-use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
-use ZnCore\Base\Libs\Store\StoreFile;
+use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Base\Store\StoreFile;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;

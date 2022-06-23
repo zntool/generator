@@ -3,8 +3,8 @@
 namespace ZnTool\Generator\Commands;
 
 use Symfony\Component\Console\Question\Question;
-use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
+use ZnCore\Base\Instance\Helpers\ClassHelper;
+use ZnCore\Base\Text\Helpers\Inflector;
 use ZnLib\Console\Symfony4\Question\ChoiceQuestion;
 use ZnSandbox\Sandbox\Bundle\Domain\Entities\BundleEntity;
 use ZnSandbox\Sandbox\Bundle\Domain\Entities\DomainEntity;

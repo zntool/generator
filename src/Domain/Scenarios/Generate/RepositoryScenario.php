@@ -5,8 +5,8 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
-use ZnCore\Base\Libs\Store\StoreFile;
+use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Base\Store\StoreFile;
 use ZnDatabase\Eloquent\Domain\Base\BaseEloquentCrudRepository;
 use ZnDatabase\Eloquent\Domain\Base\BaseEloquentRepository;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
@@ -74,7 +74,7 @@ class RepositoryScenario extends BaseScenario
         $classGenerator->addMethodFromGenerator($methodGenerator);
 
         $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
-        $entityPureClassName = \ZnCore\Base\Libs\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
+        $entityPureClassName = \ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
         $fileGenerator->setUse($entityFullClassName);
 
         $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);

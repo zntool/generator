@@ -7,8 +7,8 @@ use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
-use ZnCore\Base\Libs\Text\Helpers\Inflector;
-use ZnCore\Base\Libs\Store\StoreFile;
+use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Base\Store\StoreFile;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
@@ -87,7 +87,7 @@ class ServiceScenario extends BaseScenario
         $this->generateConstructMethod();
 
         $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
-        $entityPureClassName = \ZnCore\Base\Libs\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
+        $entityPureClassName = \ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
         $fileGenerator->setUse($entityFullClassName);
 
         $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);
@@ -113,7 +113,7 @@ class ServiceScenario extends BaseScenario
         /*$phpCode = $fileGenerator->generate();
         foreach ($fileGenerator->getUses() as $useItem) {
             $useClass = $useItem[0];
-            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Libs\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
+            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
         }*/
 
 
