@@ -7,8 +7,8 @@ use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Base\Libs\Instance\Helpers\InstanceHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnCore\Base\Libs\Validation\Interfaces\ValidationByMetadataInterface;
 
 abstract class BaseEntityScenario extends BaseScenario

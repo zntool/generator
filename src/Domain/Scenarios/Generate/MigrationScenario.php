@@ -4,8 +4,7 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Illuminate\Database\Schema\Blueprint;
 use Zend\Code\Generator\FileGenerator;
-use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnCore\Base\Libs\FileSystem\Helpers\FileStorageHelper;
 use ZnDatabase\Migration\Domain\Base\BaseCreateTableMigration;
 use ZnTool\Generator\Domain\Helpers\TemplateCodeHelper;

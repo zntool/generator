@@ -7,7 +7,7 @@ use Zend\Code\Generator\DocBlockGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnCore\Base\Libs\Store\StoreFile;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;

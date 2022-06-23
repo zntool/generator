@@ -2,8 +2,8 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use ZnCore\Base\Legacy\Yii\Helpers\ArrayHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Arr\Helpers\ArrayHelper;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Libs\ConstraintCodeGenerator;
 
 class FormScenario extends FilterScenario

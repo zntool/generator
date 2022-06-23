@@ -3,21 +3,13 @@
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\DocBlock\Tag\MethodTag;
-use Zend\Code\Generator\DocBlockGenerator;
+use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
-use ZnCore\Base\Legacy\Yii\Helpers\FileHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
-use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnLib\Rpc\Rpc\Base\BaseCrudRpcController;
-use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
-use ZnTool\Generator\Domain\Helpers\LocationHelper;
-use ZnTool\Generator\Domain\Helpers\TemplateCodeHelper;
-use ZnTool\Package\Domain\Helpers\PackageHelper;
-use Zend\Code\Generator\FileGenerator;
 
 class RpcControllerScenario extends BaseScenario
 {
@@ -37,7 +29,8 @@ class RpcControllerScenario extends BaseScenario
         return $this->bundleNamespace() . '\\Rpc\\' . $this->classDir();
     }
 
-    protected function generateDiMethod(ClassGenerator $classGenerator, array $di): MethodGenerator {
+    protected function generateDiMethod(ClassGenerator $classGenerator, array $di): MethodGenerator
+    {
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('__construct');
         $methodBody = '';
@@ -91,7 +84,8 @@ class RpcControllerScenario extends BaseScenario
         $this->generateRoutes();
     }
 
-    protected function generateAllowRelationsMethod() {
+    protected function generateAllowRelationsMethod()
+    {
         $methodGenerator = new MethodGenerator;
         $methodGenerator->setName('allowRelations');
         $methodGenerator->setReturnType('array');
@@ -99,11 +93,12 @@ class RpcControllerScenario extends BaseScenario
         $this->getClassGenerator()->addMethodFromGenerator($methodGenerator);
     }
 
-    protected function generateRouteCode(array $operationData, string $enumClass): string {
+    protected function generateRouteCode(array $operationData, string $enumClass): string
+    {
         $methodName = Inflector::variablize($this->buildDto->domainName) . Inflector::camelize($this->name);
         $enumConstName = strtoupper($operationData['permissionName']);
         return
-"[
+            "[
         'method_name' => '{$methodName}.{$operationData['rpcName']}',
         'version' => '1',
         'is_verify_eds' => false,
@@ -117,7 +112,8 @@ class RpcControllerScenario extends BaseScenario
     ],";
     }
 
-    protected function generateRoutes() {
+    protected function generateRoutes()
+    {
         $fileGenerator = new FileGenerator();
         $fileGenerator->setUse($this->getFullClassName());
 

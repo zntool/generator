@@ -4,7 +4,7 @@ namespace ZnTool\Generator\Domain\Libs;
 
 use Zend\Code\Generator\FileGenerator;
 use ZnCore\Base\Libs\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Legacy\Yii\Helpers\Inflector;
+use ZnCore\Base\Libs\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 use ZnTool\Generator\Domain\Libs\Types\ArrayType;
