@@ -8,7 +8,7 @@ use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Base\Store\StoreFile;
+use ZnLib\Components\Store\StoreFile;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;

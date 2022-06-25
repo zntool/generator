@@ -6,7 +6,7 @@ use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
 use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Base\Store\StoreFile;
+use ZnLib\Components\Store\StoreFile;
 use ZnCore\Domain\Entity\Interfaces\EntityIdInterface;
 use ZnCore\Domain\Entity\Interfaces\UniqueInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;

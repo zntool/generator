@@ -12,7 +12,7 @@ use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 use Zend\Code\Reflection\DocBlockReflection;
 use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Base\Store\StoreFile;
+use ZnLib\Components\Store\StoreFile;
 use ZnCore\Domain\EntityManager\Interfaces\EntityManagerInterface;
 use ZnCore\Domain\Service\Interfaces\CrudServiceInterface;
 use ZnUser\Notify\Domain\Interfaces\Repositories\TransportRepositoryInterface;

@@ -3,7 +3,7 @@
 namespace ZnTool\Generator\Domain\Helpers;
 
 use ZnCore\Base\FileSystem\Helpers\FileStorageHelper;
-use ZnCore\Base\Store\Store;
+use ZnLib\Components\Store\Store;
 
 class CodeHelper
 {

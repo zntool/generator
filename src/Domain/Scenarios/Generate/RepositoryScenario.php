@@ -6,7 +6,7 @@ use Zend\Code\Generator\ClassGenerator;
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use ZnCore\Base\Text\Helpers\Inflector;
-use ZnCore\Base\Store\StoreFile;
+use ZnLib\Components\Store\StoreFile;
 use ZnDatabase\Eloquent\Domain\Base\BaseEloquentCrudRepository;
 use ZnDatabase\Eloquent\Domain\Base\BaseEloquentRepository;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
