@@ -30,7 +30,7 @@ class DomainNamespaceInputScenario extends BaseInputScenario
     protected function question(): Question
     {
         /** @var BundleEntity[] $bundleCollection */
-        $bundleCollection = $this->bundleService->all();
+        $bundleCollection = $this->bundleService->findAll();
         $domainCollection = [];
         $domainCollectionNamespaces = [];
         foreach ($bundleCollection as $bundleEntity) {

@@ -110,7 +110,7 @@ class DomainCommand extends BaseGeneratorCommand
     private function selectDomain(InputInterface $input, OutputInterface $output): DomainEntity
     {
         /** @var BundleEntity[] $bundleCollection */
-        $bundleCollection = $this->bundleService->all();
+        $bundleCollection = $this->bundleService->findAll();
         $domainCollection = [];
         $domainCollectionNamespaces = [];
         foreach ($bundleCollection as $bundleEntity) {
