@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Services;
 
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Interfaces\Services\ModuleServiceInterface;

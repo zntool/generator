@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Helpers;
 
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 
 class LocationHelper

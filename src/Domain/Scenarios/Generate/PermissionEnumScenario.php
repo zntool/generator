@@ -5,7 +5,7 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Base\Enum\Interfaces\GetLabelsInterface;
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnCore\Contract\Rbac\Interfaces\GetRbacInheritanceInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 

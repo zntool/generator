@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Helpers;
 
-use ZnCore\Base\FileSystem\Helpers\FileStorageHelper;
+use ZnCore\FileSystem\Helpers\FileStorageHelper;
 use ZnTool\Package\Domain\Helpers\PackageHelper;
 
 class ClassHelper

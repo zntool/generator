@@ -9,7 +9,7 @@ use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 use ZnCore\Base\Instance\Helpers\InstanceHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 

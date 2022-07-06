@@ -3,7 +3,7 @@
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use ZnCore\Base\Arr\Helpers\ArrayHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Libs\ConstraintCodeGenerator;
 
 class FormScenario extends FilterScenario

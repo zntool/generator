@@ -4,7 +4,7 @@ namespace ZnTool\Generator\Domain\Libs;
 
 use Zend\Code\Generator\FileGenerator;
 use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 use ZnTool\Generator\Domain\Libs\Types\ArrayType;
@@ -66,7 +66,7 @@ class ConstraintCodeGenerator
 
         //$isBoolean = FieldRenderHelper::isMatchPrefix($attribute, 'is_');
         if(BoolType::match($attributeName)) {
-            $this->fileGenerator->setUse(\ZnCore\Base\Validation\Constraints\Boolean::class);
+            $this->fileGenerator->setUse(\ZnCore\Validation\Constraints\Boolean::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Boolean());";
         }
 

@@ -3,7 +3,7 @@
 namespace ZnTool\Generator\Domain\Libs\Types;
 
 use ZnCore\Base\Instance\Helpers\ClassHelper;
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
 
 abstract class BaseType

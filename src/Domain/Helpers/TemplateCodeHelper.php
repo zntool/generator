@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Helpers;
 
-use ZnCore\Base\Text\Helpers\Inflector;
+use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\ArrayRender;
 use ZnTool\Generator\Domain\Libs\MigrationFieldRender\AuthorIdRender;
