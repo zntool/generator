@@ -8,7 +8,7 @@ use Zend\Code\Generator\InterfaceGenerator;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
-use ZnCore\Base\Instance\Helpers\InstanceHelper;
+use ZnCore\Instance\Helpers\InstanceHelper;
 use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Dto\BuildDto;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
@@ -121,7 +121,7 @@ abstract class BaseScenario
 
     protected function bundleNamespace(): string
     {
-        return \ZnCore\Base\Instance\Helpers\ClassHelper::getNamespace($this->domainNamespace);
+        return \ZnCore\Instance\Helpers\ClassHelper::getNamespace($this->domainNamespace);
     }
 
     public function classNamespace(): string
@@ -173,7 +173,7 @@ abstract class BaseScenario
         $phpCode = $fileGenerator->generate();
         foreach ($fileGenerator->getUses() as $useItem) {
             $useClass = $useItem[0];
-            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
+            $phpCode = str_replace('\\' . $useClass, \ZnCore\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
         }
         return $phpCode;
     }

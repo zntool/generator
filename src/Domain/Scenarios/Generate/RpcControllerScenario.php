@@ -39,7 +39,7 @@ class RpcControllerScenario extends BaseScenario
             $parameterGenerator->setName($name);
             $this->getFileGenerator()->setUse($type);
             $parameterGenerator->setType(basename($type));
-//            $parameterGenerator->setType(\ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($type));
+//            $parameterGenerator->setType(\ZnCore\Instance\Helpers\ClassHelper::getClassOfClassName($type));
 //            $fileGenerator->setUse($type);
             $methodGenerator->setParameter($parameterGenerator);
             $methodBody .= "\$this->{$name} = \${$name};\n";

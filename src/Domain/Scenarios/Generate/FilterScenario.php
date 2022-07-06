@@ -2,7 +2,7 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Arr\Helpers\ArrayHelper;
 use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Libs\ConstraintCodeGenerator;

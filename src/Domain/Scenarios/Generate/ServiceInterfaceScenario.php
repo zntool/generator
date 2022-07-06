@@ -14,7 +14,7 @@ use Zend\Code\Reflection\DocBlockReflection;
 use ZnCore\Text\Helpers\Inflector;
 use ZnLib\Components\Store\StoreFile;
 use ZnCore\EntityManager\Interfaces\EntityManagerInterface;
-use ZnCore\Domain\Service\Interfaces\CrudServiceInterface;
+use ZnCore\Service\Interfaces\CrudServiceInterface;
 use ZnUser\Notify\Domain\Interfaces\Repositories\TransportRepositoryInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;

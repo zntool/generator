@@ -2,8 +2,8 @@
 
 namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
-use ZnCore\Domain\Repository\Interfaces\CrudRepositoryInterface;
-use ZnCore\Domain\Repository\Interfaces\RepositoryInterface;
+use ZnCore\Repository\Interfaces\CrudRepositoryInterface;
+use ZnCore\Repository\Interfaces\RepositoryInterface;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 
 class RepositoryInterfaceScenario extends BaseInterfaceScenario

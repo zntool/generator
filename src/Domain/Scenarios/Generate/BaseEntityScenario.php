@@ -6,8 +6,8 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use Zend\Code\Generator\PropertyGenerator;
-use ZnCore\Base\Instance\Helpers\InstanceHelper;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Instance\Helpers\InstanceHelper;
+use ZnCore\Arr\Helpers\ArrayHelper;
 use ZnCore\Text\Helpers\Inflector;
 use ZnCore\Validation\Interfaces\ValidationByMetadataInterface;
 

@@ -4,7 +4,7 @@ namespace ZnTool\Generator\Domain\Scenarios\Generate;
 
 use Zend\Code\Generator\FileGenerator;
 use Zend\Code\Generator\MethodGenerator;
-use ZnCore\Base\Arr\Helpers\ArrayHelper;
+use ZnCore\Arr\Helpers\ArrayHelper;
 use ZnCore\Text\Helpers\Inflector;
 use ZnLib\Components\Store\StoreFile;
 use ZnCore\Entity\Interfaces\EntityIdInterface;

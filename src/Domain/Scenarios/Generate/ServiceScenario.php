@@ -77,17 +77,17 @@ class ServiceScenario extends BaseScenario
 
 
         if ($this->buildDto->isCrudService) {
-            $fileGenerator->setUse('ZnCore\Domain\Service\Base\BaseCrudService');
+            $fileGenerator->setUse('ZnCore\Service\Base\BaseCrudService');
             $classGenerator->setExtendedClass('BaseCrudService');
         } else {
-            $fileGenerator->setUse('ZnCore\Domain\Service\Base\BaseService');
+            $fileGenerator->setUse('ZnCore\Service\Base\BaseService');
             $classGenerator->setExtendedClass('BaseService');
         }
 
         $this->generateConstructMethod();
 
         $entityFullClassName = $this->domainNamespace . LocationHelper::fullClassName($this->name, TypeEnum::ENTITY);
-        $entityPureClassName = \ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
+        $entityPureClassName = \ZnCore\Instance\Helpers\ClassHelper::getClassOfClassName($entityFullClassName);
         $fileGenerator->setUse($entityFullClassName);
 
         $methodGenerator = $this->generateGetEntityClassMethod($entityPureClassName);
@@ -113,7 +113,7 @@ class ServiceScenario extends BaseScenario
         /*$phpCode = $fileGenerator->generate();
         foreach ($fileGenerator->getUses() as $useItem) {
             $useClass = $useItem[0];
-            $phpCode = str_replace('\\' . $useClass, \ZnCore\Base\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
+            $phpCode = str_replace('\\' . $useClass, \ZnCore\Instance\Helpers\ClassHelper::getClassOfClassName($useClass), $phpCode);
         }*/
 
 

@@ -3,7 +3,7 @@
 namespace ZnTool\Generator\Domain\Libs;
 
 use Zend\Code\Generator\FileGenerator;
-use ZnCore\Base\Instance\Helpers\ClassHelper;
+use ZnCore\Instance\Helpers\ClassHelper;
 use ZnCore\Text\Helpers\Inflector;
 use ZnTool\Generator\Domain\Helpers\FieldRenderHelper;
 use ZnTool\Generator\Domain\Helpers\TypeAttributeHelper;
@@ -57,7 +57,7 @@ class ConstraintCodeGenerator
 //        $isStatus = $attribute == 'status_id';
         if(StatusIdType::match($attributeName)) {
             $this->fileGenerator->setUse(\ZnLib\Components\Status\Enums\StatusEnum::class);
-            $this->fileGenerator->setUse(\ZnCore\Base\Enum\Constraints\Enum::class);
+            $this->fileGenerator->setUse(\ZnCore\Enum\Constraints\Enum::class);
             $validationRules[] =
                 "\$metadata->addPropertyConstraint('$attributeName', new Enum([
     'class' => StatusEnum::class,
@@ -76,7 +76,7 @@ class ConstraintCodeGenerator
         }
 
         if(ArrayType::match($attributeName) || I18nType::match($attributeName)) {
-            $this->fileGenerator->setUse(\ZnCore\Base\Arr\Constraints\Arr::class);
+            $this->fileGenerator->setUse(\ZnCore\Arr\Constraints\Arr::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Arr());";
         }
 
