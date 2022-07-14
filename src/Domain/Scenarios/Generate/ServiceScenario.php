@@ -9,7 +9,7 @@ use Zend\Code\Generator\MethodGenerator;
 use Zend\Code\Generator\ParameterGenerator;
 use ZnCore\Text\Helpers\Inflector;
 use ZnLib\Components\Store\StoreFile;
-use ZnCore\EntityManager\Interfaces\EntityManagerInterface;
+use ZnDomain\EntityManager\Interfaces\EntityManagerInterface;
 use ZnTool\Generator\Domain\Enums\TypeEnum;
 use ZnTool\Generator\Domain\Helpers\ClassHelper;
 use ZnTool\Generator\Domain\Helpers\LocationHelper;
@@ -77,10 +77,10 @@ class ServiceScenario extends BaseScenario
 
 
         if ($this->buildDto->isCrudService) {
-            $fileGenerator->setUse('ZnCore\Service\Base\BaseCrudService');
+            $fileGenerator->setUse('ZnDomain\Service\Base\BaseCrudService');
             $classGenerator->setExtendedClass('BaseCrudService');
         } else {
-            $fileGenerator->setUse('ZnCore\Service\Base\BaseService');
+            $fileGenerator->setUse('ZnDomain\Service\Base\BaseService');
             $classGenerator->setExtendedClass('BaseService');
         }
 

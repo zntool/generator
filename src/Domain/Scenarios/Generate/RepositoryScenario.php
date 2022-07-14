@@ -138,7 +138,7 @@ class RepositoryScenario extends BaseScenario
                 $className = BaseEloquentRepository::class;
             }
         } else {
-            //$className = 'ZnCore\Domain\Base\BaseRepository';
+            //$className = 'ZnDomain\Domain\Base\BaseRepository';
         }
         return $className;
     }
