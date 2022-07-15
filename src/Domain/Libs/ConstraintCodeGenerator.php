@@ -57,7 +57,7 @@ class ConstraintCodeGenerator
 //        $isStatus = $attribute == 'status_id';
         if(StatusIdType::match($attributeName)) {
             $this->fileGenerator->setUse(\ZnLib\Components\Status\Enums\StatusEnum::class);
-            $this->fileGenerator->setUse(\ZnDomain\Сomponents\EnumRepository\Constraints\Enum::class);
+            $this->fileGenerator->setUse(\ZnDomain\Сomponents\Constraints\Enum::class);
             $validationRules[] =
                 "\$metadata->addPropertyConstraint('$attributeName', new Enum([
     'class' => StatusEnum::class,
@@ -76,7 +76,7 @@ class ConstraintCodeGenerator
         }
 
         if(ArrayType::match($attributeName) || I18nType::match($attributeName)) {
-            $this->fileGenerator->setUse(\ZnCore\Arr\Constraints\Arr::class);
+            $this->fileGenerator->setUse(\ZnDomain\Сomponents\Constraints\Arr::class);
             $validationRules[] = "\$metadata->addPropertyConstraint('$attributeName', new Arr());";
         }
 
